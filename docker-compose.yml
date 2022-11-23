@@ -1,0 +1,47 @@
+version: '3.1'
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: ./apps/bot/Dockerfile
+      target: development
+    volumes:
+      - ./apps/bot:/usr/src/app
+    env_file:
+      - ./apps/bot/.env
+    networks:
+      - internal-network
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: npm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    depends_on:
+      - mongodb-auth
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal-network
+
+  mongodb-auth:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    ports:
+      - 27017:27017
+    networks:
+      - internal-network
+
+networks:
+  internal-network:
+    driver: bridge
