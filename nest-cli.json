@@ -44,6 +44,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/riot-api/tsconfig.lib.json"
       }
+    },
+    "raram-analysis": {
+      "type": "application",
+      "root": "apps/raram-analysis",
+      "entryFile": "main",
+      "sourceRoot": "apps/raram-analysis/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/raram-analysis/tsconfig.app.json"
+      }
     }
   }
 }

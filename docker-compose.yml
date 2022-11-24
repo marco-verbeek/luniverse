@@ -42,6 +42,24 @@ services:
     networks:
       - internal-network
 
+  raram-analysis:
+    build:
+      context: .
+      dockerfile: ./apps/raram-analysis/Dockerfile
+      target: development
+    command: npm run start:dev raram-analysis
+    env_file:
+      - ./apps/raram-analysis/.env
+    depends_on:
+      - auth
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal-network
+
 networks:
   internal-network:
     driver: bridge
