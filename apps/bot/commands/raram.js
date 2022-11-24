@@ -10,7 +10,7 @@ module.exports = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `discordId ${interaction.user.id}`,
+        Authentication: `discordId ${interaction.user.id}`,
       },
     });
 
@@ -21,6 +21,8 @@ module.exports = {
           ':white_check_mark: Successfully analysed your last ARAM game.';
         break;
 
+      // TODO: handle differently
+      case 401:
       case 403:
         message =
           ':x: You do not have a verified profile yet! Create one using /verify or ask an admin for verification.';
@@ -30,6 +32,8 @@ module.exports = {
         message =
           ':warning: An error occured during the analysis. Please try again.';
     }
+
+    console.log(analyseReq);
 
     await interaction.reply(message);
   },

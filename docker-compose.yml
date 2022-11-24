@@ -23,6 +23,7 @@ services:
       - ./apps/auth/.env
     depends_on:
       - mongodb-auth
+      - rabbitmq
     ports:
       - 3001:3001
     volumes:
@@ -42,6 +43,13 @@ services:
     networks:
       - internal-network
 
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'
+    networks:
+      - internal-network
+
   raram-analysis:
     build:
       context: .
@@ -52,6 +60,7 @@ services:
       - ./apps/raram-analysis/.env
     depends_on:
       - auth
+      - rabbitmq
     ports:
       - 3000:3000
     volumes:
