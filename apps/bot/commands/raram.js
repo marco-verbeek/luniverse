@@ -24,8 +24,8 @@ module.exports = {
       // TODO: handle differently
       case 401:
       case 403:
-        message =
-          ':x: You do not have a verified profile yet! Create one using /verify or ask an admin for verification.';
+        message = `:x: An error occured: ${await analyseReq.json()}`;
+        // ':x: You do not have a verified profile yet! Create one using /verify or ask an admin for verification.';
         break;
 
       default:
