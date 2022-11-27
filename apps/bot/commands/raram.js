@@ -33,7 +33,7 @@ module.exports = {
           ':warning: An error occured during the analysis. Please try again.';
     }
 
-    console.log(analyseReq);
+    console.log(await analyseReq.json());
 
     await interaction.reply(message);
   },

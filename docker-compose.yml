@@ -61,11 +61,23 @@ services:
     depends_on:
       - auth
       - rabbitmq
+      - mongodb-analysis
     ports:
       - 3000:3000
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    networks:
+      - internal-network
+
+  mongodb-analysis:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    ports:
+      - 27018:27017
     networks:
       - internal-network
 

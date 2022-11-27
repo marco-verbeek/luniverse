@@ -14,9 +14,7 @@ export class VerifiedAccountGuard extends DiscordUserGuard {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    console.log('aaa');
     super.canActivate(context);
-    console.log('aaa');
 
     const user =
       context.getType() === 'http'

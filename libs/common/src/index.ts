@@ -6,5 +6,6 @@ export * from './rmq/rmq.module';
 export * from './rmq/rmq.service';
 
 export * from './auth/auth.module';
-export * from './auth/discord-auth.guard';
+export * from './auth/guards/discord-auth.guard';
+export * from './auth/decorators/get-user.decorator';
 export * from './auth/services';

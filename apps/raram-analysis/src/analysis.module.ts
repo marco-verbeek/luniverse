@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule, RmqModule } from '@luni/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule, DatabaseModule, RmqModule } from '@luni/common';
+import { RiotAPIModule } from '@luni/riot-api';
 import * as Joi from 'joi';
 
 import { AnalysisController } from './analysis.controller';
 import { AnalysisService } from './analysis.service';
+import { DTHAnalysisService } from './dth-analysis.service';
+import { AnalysisRepository } from './analysis.repository';
+import { Analysis, AnalysisSchema } from './schemas/analysis.schema';
 
 @Module({
   imports: [
@@ -20,8 +25,13 @@ import { AnalysisService } from './analysis.service';
     }),
     AuthModule,
     RmqModule,
+    RiotAPIModule,
+    DatabaseModule,
+    MongooseModule.forFeature([
+      { name: Analysis.name, schema: AnalysisSchema },
+    ]),
   ],
   controllers: [AnalysisController],
-  providers: [AnalysisService],
+  providers: [AnalysisService, DTHAnalysisService, AnalysisRepository],
 })
 export class AnalysisModule {}

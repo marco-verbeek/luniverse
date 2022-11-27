@@ -7,11 +7,7 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { catchError, Observable, tap } from 'rxjs';
-import { AUTH_SERVICE } from './services';
-
-// TODO move to guards folder
-// TODO create decorator folder and move getuser
-// TODO see how user can be passed
+import { AUTH_SERVICE } from '../services';
 
 @Injectable()
 export class DiscordAuthGuard implements CanActivate {
@@ -29,8 +25,7 @@ export class DiscordAuthGuard implements CanActivate {
         tap((res) => {
           this.attachUser(res, context);
         }),
-        catchError((err) => {
-          console.log('err in pipe', err);
+        catchError(() => {
           throw new UnauthorizedException();
         }),
       );
@@ -43,7 +38,7 @@ export class DiscordAuthGuard implements CanActivate {
       authentication = context.switchToRpc().getData().Authentication;
     } else if (context.getType() === 'http') {
       authentication = context.switchToHttp().getRequest()
-        .headers.Authentication;
+        .headers.authentication;
     }
 
     if (!authentication) {
