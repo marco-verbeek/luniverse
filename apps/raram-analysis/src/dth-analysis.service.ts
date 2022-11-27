@@ -163,7 +163,7 @@ export class DTHAnalysisService {
    * @param max The highest amount allowed
    * @returns {number} gain if between min and max, min if lower than min, max if higher than max
    */
-  limit = (gain = 0, min = -4, max = 4): number => {
+  private limit = (gain = 0, min = -4, max = 4): number => {
     return gain < 0 ? Math.max(min, gain) : Math.min(gain, max);
   };
 
@@ -175,7 +175,7 @@ export class DTHAnalysisService {
    * @param resultMultiplier result of previous operation will be multiplied with resultMultiplier
    * @returns {number} 2-decimal float representing (gain*multiplier) * resultMultiplier
    */
-  calculateGain = ({
+  private calculateGain = ({
     gain = 0,
     multiplier = 10,
     resultMultiplier = 1,
@@ -188,12 +188,12 @@ export class DTHAnalysisService {
    * @param value the value you wish to format
    * @returns {number} formatted value
    */
-  format = (value: number): number => {
+  private format = (value: number): number => {
     return parseFloat(value.toFixed(2));
   };
 
   // TODO: JSDoc
-  teamComparedStat(individual: number, team: number): number {
+  private teamComparedStat(individual: number, team: number): number {
     return this.format((individual - team) / team);
   }
 }
