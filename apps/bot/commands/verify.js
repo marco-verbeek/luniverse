@@ -16,10 +16,9 @@ module.exports = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `discordId ${interaction.user.id}`,
+        Authentication: `discordId ${interaction.user.id}`,
       },
       body: JSON.stringify({
-        discordId: interaction.user.id,
         summonerName: interaction.options.getString('summonername'),
       }),
     });

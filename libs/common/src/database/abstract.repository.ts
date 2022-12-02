@@ -1,10 +1,7 @@
-import { Logger } from '@nestjs/common';
 import { FilterQuery, Model, Types, UpdateQuery, SaveOptions } from 'mongoose';
 import { AbstractDocument } from './abstract.schema';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
-  protected abstract readonly logger: Logger;
-
   constructor(protected readonly model: Model<TDocument>) {}
 
   async create(

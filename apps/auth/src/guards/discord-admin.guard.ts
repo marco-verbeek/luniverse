@@ -15,7 +15,10 @@ export class DiscordAdminGuard extends DiscordUserGuard {
   canActivate(context: ExecutionContext): boolean {
     super.canActivate(context);
 
-    const user = context.switchToHttp().getRequest().user;
+    const user =
+      context.getType() === 'http'
+        ? context.switchToHttp().getRequest().user
+        : context.switchToRpc().getData().user;
 
     if (user?.discordId !== this.configService.get('ADMIN_DISCORD_ID')) {
       throw new UnauthorizedException('Request must be made by an admin');

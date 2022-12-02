@@ -23,6 +23,7 @@ services:
       - ./apps/auth/.env
     depends_on:
       - mongodb-auth
+      - rabbitmq
     ports:
       - 3001:3001
     volumes:
@@ -39,6 +40,44 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: toor
     ports:
       - 27017:27017
+    networks:
+      - internal-network
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'
+    networks:
+      - internal-network
+
+  raram-analysis:
+    build:
+      context: .
+      dockerfile: ./apps/raram-analysis/Dockerfile
+      target: development
+    command: npm run start:dev raram-analysis
+    env_file:
+      - ./apps/raram-analysis/.env
+    depends_on:
+      - auth
+      - rabbitmq
+      - mongodb-analysis
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal-network
+
+  mongodb-analysis:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    ports:
+      - 27018:27017
     networks:
       - internal-network
 
