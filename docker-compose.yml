@@ -81,6 +81,37 @@ services:
     networks:
       - internal-network
 
+  raram-stats:
+    build:
+      context: .
+      dockerfile: ./apps/raram-stats/Dockerfile
+      target: development
+    command: npm run start:dev raram-stats
+    env_file:
+      - ./apps/raram-stats/.env
+    depends_on:
+      - auth
+      - rabbitmq
+      - mongodb-stats
+    ports:
+      - 3002:3002
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal-network
+
+  mongodb-stats:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    ports:
+      - 27019:27017
+    networks:
+      - internal-network
+
 networks:
   internal-network:
     driver: bridge
