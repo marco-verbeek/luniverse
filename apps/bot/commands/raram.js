@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { embedAnalysis } = require('../utils/analysis_embed');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -16,16 +17,10 @@ module.exports = {
 
     let message;
     switch (analyseReq.status) {
-      case 200:
-        message =
-          ':white_check_mark: Successfully analysed your last ARAM game.';
-        break;
-
       // TODO: handle differently
       case 401:
       case 403:
         message = `:x: An error occured: ${await analyseReq.json()}`;
-        // ':x: You do not have a verified profile yet! Create one using /verify or ask an admin for verification.';
         break;
 
       default:
@@ -33,7 +28,11 @@ module.exports = {
           ':warning: An error occured during the analysis. Please try again.';
     }
 
-    console.log(await analyseReq.json());
+    // TODO: improve 200 handling
+    if (analyseReq.status === 200) {
+      const analysis = await analyseReq.json();
+      return embedAnalysis(interaction, analysis);
+    }
 
     await interaction.reply(message);
   },
