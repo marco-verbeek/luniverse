@@ -17,7 +17,6 @@ module.exports = {
 
     let message;
     switch (analyseReq.status) {
-      // TODO: handle differently
       case 401:
       case 403:
         message = `:x: An error occured: ${await analyseReq.json()}`;
@@ -28,7 +27,6 @@ module.exports = {
           ':warning: An error occured during the analysis. Please try again.';
     }
 
-    // TODO: improve 200 handling
     if (analyseReq.status === 200) {
       const analysis = await analyseReq.json();
       return embedAnalysis(interaction, analysis);
