@@ -192,7 +192,12 @@ export class DTHAnalysisService {
     return parseFloat(value.toFixed(2));
   };
 
-  // TODO: JSDoc
+  /**
+   * teamComparedStat is a helper function that compared the individual score to the team score.
+   * @param individual - the individual player's score
+   * @param team - the team's average score
+   * @returns {number} the individual's score compared to the team's score
+   */
   private teamComparedStat(individual: number, team: number): number {
     return this.format((individual - team) / team);
   }
