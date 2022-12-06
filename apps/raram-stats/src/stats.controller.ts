@@ -1,4 +1,5 @@
 import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 import { StatsService } from './stats.service';
 
@@ -6,6 +7,8 @@ import { StatsService } from './stats.service';
 export class StatsController {
   constructor(private readonly statsService: StatsService) {}
 
-  // MessagePattern
-  // writeAnalysis
+  @MessagePattern('game_analyzed')
+  async writeAnalysis(@Payload() data: any) {
+    return this.statsService.write(data);
+  }
 }

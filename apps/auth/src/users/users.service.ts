@@ -12,6 +12,10 @@ export class UsersService {
     return this.usersRepository.findOne({ discordId });
   }
 
+  async findVerifiedBySummonerName(summonerName: string): Promise<User> {
+    return this.usersRepository.findOne({ summonerName, verified: true });
+  }
+
   async create(discordId: string, summonerName: string): Promise<User> {
     return this.usersRepository.create({
       discordId,

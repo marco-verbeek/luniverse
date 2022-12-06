@@ -1,4 +1,12 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { GetCurrentUser } from '@luni/common';
 
@@ -10,6 +18,7 @@ import { DiscordAdminGuard } from './guards/discord-admin.guard';
 import { GetDiscordUserId } from './decorators/get-discord-user-id.decorator';
 import { User } from './users/schemas/user.schema';
 import { VerifiedAccountGuard } from './guards/verified-account.guard';
+import { DiscordIdBySummonerNameDTO } from './dtos/get-user-by-summoner-name.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -28,6 +37,11 @@ export class AuthController {
   @UseGuards(DiscordAdminGuard)
   async confirmLinkLeagueAccount(@Body() data: ConfirmLeagueLinkDTO) {
     return this.authService.confirmLeagueLink(data.accountId);
+  }
+
+  @Get('users')
+  async getUsersBySummonerNames(@Query() data: DiscordIdBySummonerNameDTO) {
+    return this.authService.getAccountsBySummonerNames(data.summonerNames);
   }
 
   @UseGuards(VerifiedAccountGuard)

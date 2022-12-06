@@ -25,7 +25,9 @@ import { Analysis, AnalysisSchema } from './schemas/analysis.schema';
       }),
     }),
     AuthModule,
-    RmqModule,
+    RmqModule.register({
+      name: 'RARAM_STATS',
+    }),
     RiotAPIModule,
     DatabaseModule,
     MongooseModule.forFeature([

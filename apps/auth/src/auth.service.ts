@@ -63,4 +63,22 @@ export class AuthService {
 
     return this.usersService.confirmAccountVerification(discordId, lolAccount);
   }
+
+  async getAccountsBySummonerNames(summonerNames: string[]) {
+    const players = summonerNames.map((name) => {
+      return { summonerName: name, discordId: null };
+    });
+
+    for (const player of players) {
+      const account = await this.usersService.findVerifiedBySummonerName(
+        player.summonerName,
+      );
+
+      if (account) {
+        player.discordId = account.discordId;
+      }
+    }
+
+    return players;
+  }
 }

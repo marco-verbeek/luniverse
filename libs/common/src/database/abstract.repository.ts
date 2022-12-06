@@ -24,9 +24,11 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   async findOneAndUpdate(
     filterQuery: FilterQuery<TDocument>,
     update: UpdateQuery<TDocument>,
+    upsert = false,
   ) {
     return this.model.findOneAndUpdate(filterQuery, update, {
       lean: true,
+      upsert,
       new: true,
     });
   }
