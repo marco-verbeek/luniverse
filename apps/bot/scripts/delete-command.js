@@ -11,7 +11,6 @@ if (!process.env.COMMAND_ID) {
 
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
-// for global commands
 rest
   .delete(
     Routes.applicationCommand(process.env.CLIENT_ID, process.env.COMMAND_ID),
