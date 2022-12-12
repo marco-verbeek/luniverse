@@ -3,7 +3,7 @@ import { AbstractDocument } from '@luni/common';
 import { Team, TeamSchema } from './team.schema';
 import { Player, PlayerSchema } from './player.schema';
 
-@Schema({ versionKey: false })
+@Schema({ versionKey: false, _id: false })
 export class Analysis extends AbstractDocument {
   @Prop({ required: true, unique: true, index: true })
   gameId: string;

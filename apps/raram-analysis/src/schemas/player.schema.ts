@@ -4,6 +4,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 export class Player {
   @Prop({ required: true, index: true, select: false })
   puuid: string;
+  @Prop()
+  discordId: string;
 
   @Prop()
   summonerName: string;
