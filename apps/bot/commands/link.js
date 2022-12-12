@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('verify')
+    .setName('link')
     .setDescription('Link your League of Legends account with Luni!')
     .addStringOption((option) =>
       option
