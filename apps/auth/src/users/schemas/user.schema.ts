@@ -7,7 +7,7 @@ export class User extends AbstractDocument {
   @Prop({ required: true, unique: true, index: true })
   discordId: string;
 
-  @Prop()
+  @Prop({ index: true })
   summonerName: string;
 
   @Prop({ required: false, default: false })
