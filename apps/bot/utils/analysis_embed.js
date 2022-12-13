@@ -18,8 +18,10 @@ const formatPlayerKDA = ({
   return `[${kills}/${deaths}/${assists}](${'https://google.com/'} "Damage Done: ${damageDone}\nDamage Taken: ${damageTaken}\nHealed: ${healed}")`;
 };
 
-const formatPlayerPoints = ({ lpGain, explained }) => {
-  return `[${formatLPGain(lpGain)}](${'https://google.com/'} "${explained}")`;
+const formatPlayerPoints = ({ poroPointsGain, explained }) => {
+  return `[${formatLPGain(
+    poroPointsGain,
+  )}](${'https://google.com/'} "${explained}")`;
 };
 
 const formatGainExplained = ({
@@ -27,8 +29,8 @@ const formatGainExplained = ({
   damageTakenGain,
   deathsGain,
   healedGain,
-  kpGain,
-  lpGain,
+  killParticipationGain,
+  poroPointsGain,
   teamComparedDamageDone,
   teamComparedDamageTaken,
   teamComparedDeaths,
@@ -40,7 +42,7 @@ const formatGainExplained = ({
     win,
     teamComparedKP,
     teamComparedDeaths,
-    kpGain,
+    killParticipationGain,
     deathsGain,
   });
 
@@ -55,9 +57,9 @@ const formatGainExplained = ({
 
   const totalLpExplained = formatTotalLPExplained({
     win,
-    kpGain,
+    killParticipationGain,
     deathsGain,
-    lpGain,
+    poroPointsGain,
     maxDTH: Math.max(damageDoneGain, damageTakenGain, healedGain),
   });
 
@@ -68,11 +70,13 @@ const formatWinLoseKPDeathsExplained = ({
   win,
   teamComparedKP,
   teamComparedDeaths,
-  kpGain,
+  killParticipationGain,
   deathsGain,
 }) => {
   const winExplained = win ? 'Win: +10 LP' : 'Lose: -10LP';
-  const kpExplained = `KP: ${teamComparedKP}% (${formatLPGain(kpGain)})`;
+  const kpExplained = `KP: ${teamComparedKP}% (${formatLPGain(
+    killParticipationGain,
+  )})`;
   const deathsExplained = `Deaths: ${teamComparedDeaths}% (${formatLPGain(
     deathsGain,
   )})`;
@@ -105,13 +109,13 @@ const formatDTHExplained = ({
 
 const formatTotalLPExplained = ({
   win,
-  kpGain,
+  killParticipationGain,
   deathsGain,
   maxDTH,
-  lpGain,
+  poroPointsGain,
 }) => {
   const winLp = `${win ? '+' : '-'}10`;
-  return `${winLp} + ${kpGain} + ${deathsGain} + ${maxDTH} = ${lpGain}`;
+  return `${winLp} + ${killParticipationGain} + ${deathsGain} + ${maxDTH} = ${poroPointsGain}`;
 };
 
 const formatAnalysis = (analysis) => {
@@ -145,14 +149,14 @@ const formatAnalysis = (analysis) => {
 
     playerPoints.push(
       formatPlayerPoints({
-        lpGain: player.lpGain,
+        poroPointsGain: player.poroPointsGain,
         explained: formatGainExplained({
           damageDoneGain: player.damageDoneGain,
           damageTakenGain: player.damageTakenGain,
           deathsGain: player.deathsGain,
           healedGain: player.healedGain,
-          kpGain: player.KPGain,
-          lpGain: player.lpGain,
+          killParticipationGain: player.killParticipationGain,
+          poroPointsGain: player.poroPointsGain,
           teamComparedDamageDone: (player.teamComparedDamageDone * 100).toFixed(
             0,
           ),

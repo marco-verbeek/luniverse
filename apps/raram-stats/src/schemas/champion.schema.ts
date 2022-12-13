@@ -19,7 +19,7 @@ export class Champion extends AbstractDocument {
   pointsLost: number;
 
   @Prop()
-  totalKP: number;
+  totalKillParticipation: number;
   @Prop()
   doubleKills: number;
   @Prop()

@@ -52,7 +52,7 @@ export class Player {
   teamComparedHealed: number;
 
   @Prop()
-  KPGain: number;
+  killParticipationGain: number;
   @Prop()
   deathsGain: number;
   @Prop()
@@ -63,7 +63,7 @@ export class Player {
   healedGain: number;
 
   @Prop()
-  lpGain: number;
+  poroPointsGain: number;
 
   // TODO: keep spell{1-6}Casts, summoner{1|2}Casts and more
   // See ParticipantDto from twisted lib
