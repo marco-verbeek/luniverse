@@ -6,17 +6,13 @@ import * as Joi from 'joi';
 
 import { StatsController } from './stats.controller';
 import { StatsService } from './stats.service';
-import { Champion, ChampionSchema } from './schemas/champion.schema';
 import { AnalyzedGame, AnalyzedGameSchema } from './schemas/game.schema';
 import {
   PlayedChampion,
   PlayedChampionSchema,
 } from './schemas/played-champion.schema';
-import { Player, PlayerSchema } from './schemas/player.schema';
 import { GameRepository } from './repositories/game.repository';
-import { ChampionRepository } from './repositories/champion.repository';
 import { PlayedChampionRepository } from './repositories/played-champion.repository';
-import { PlayerRepository } from './repositories/player.repository';
 
 @Module({
   imports: [
@@ -33,19 +29,11 @@ import { PlayerRepository } from './repositories/player.repository';
     RmqModule,
     DatabaseModule,
     MongooseModule.forFeature([
-      { name: Champion.name, schema: ChampionSchema },
       { name: AnalyzedGame.name, schema: AnalyzedGameSchema },
       { name: PlayedChampion.name, schema: PlayedChampionSchema },
-      { name: Player.name, schema: PlayerSchema },
     ]),
   ],
   controllers: [StatsController],
-  providers: [
-    StatsService,
-    ChampionRepository,
-    GameRepository,
-    PlayedChampionRepository,
-    PlayerRepository,
-  ],
+  providers: [StatsService, GameRepository, PlayedChampionRepository],
 })
 export class StatsModule {}

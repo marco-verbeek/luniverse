@@ -42,6 +42,31 @@ export class DTHAnalysisService {
         quadraKills: participant.quadraKills,
         pentaKills: participant.pentaKills,
 
+        goldEarned: participant.goldEarned,
+        goldSpent: participant.goldSpent,
+        totalMinionsKilled: participant.totalMinionsKilled,
+        itemsPurchased: participant.itemsPurchased,
+
+        firstBloodKill: participant.firstBloodKill,
+        firstBloodAssist: participant.firstBloodAssist,
+        totalTimeSpentDead: participant.totalTimeSpentDead,
+
+        champLevel: participant.champLevel,
+        timePlayed: participant.timePlayed,
+        timeCCingOthers: participant.timeCCingOthers,
+
+        spell1Casts: participant.spell1Casts,
+        spell2Casts: participant.spell2Casts,
+        spell3Casts: participant.spell3Casts,
+        spell4Casts: participant.spell4Casts,
+
+        summoner1Casts: participant.summoner1Casts,
+        summoner1Id: participant.summoner1Id,
+        summoner2Casts: participant.summoner2Casts,
+        summoner2Id: participant.summoner2Id,
+
+        // TODO: check if can be replaced by ...participant?
+
         // Will be calculated later.
         teamComparedKP: 0,
         teamComparedDeaths: 0,

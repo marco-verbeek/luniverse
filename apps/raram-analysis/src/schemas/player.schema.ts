@@ -65,21 +65,46 @@ export class Player {
   @Prop()
   poroPointsGain: number;
 
-  // TODO: keep spell{1-6}Casts, summoner{1|2}Casts and more
-  // See ParticipantDto from twisted lib
-  // @Prop()
-  // goldEarned: number;
-  // @Prop()
-  // goldSpent: number;
-  // @Prop()
-  // totalMinionsKilled: number;
+  @Prop()
+  goldEarned: number;
+  @Prop()
+  goldSpent: number;
+  @Prop()
+  totalMinionsKilled: number;
+  @Prop()
+  itemsPurchased: number;
 
-  // @Prop()
-  // firstBloodKill: boolean;
-  // @Prop()
-  // firstBloodAssist: boolean;
-  // @Prop()
-  // longestTimeSpentLiving: number;
+  @Prop()
+  firstBloodKill: boolean;
+  @Prop()
+  firstBloodAssist: boolean;
+  @Prop()
+  totalTimeSpentDead: number;
+
+  @Prop()
+  champLevel: number;
+  @Prop()
+  timePlayed: number;
+  @Prop()
+  timeCCingOthers: number;
+
+  @Prop()
+  spell1Casts: number;
+  @Prop()
+  spell2Casts: number;
+  @Prop()
+  spell3Casts: number;
+  @Prop()
+  spell4Casts: number;
+
+  @Prop()
+  summoner1Casts: number;
+  @Prop()
+  summoner1Id: number;
+  @Prop()
+  summoner2Casts: number;
+  @Prop()
+  summoner2Id: number;
 }
 
 export const PlayerSchema = SchemaFactory.createForClass(Player);

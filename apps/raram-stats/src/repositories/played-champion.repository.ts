@@ -13,4 +13,22 @@ export class PlayedChampionRepository extends AbstractRepository<PlayedChampion>
   ) {
     super(playedChampionModel);
   }
+
+  async getPlayerSums(discordId: string) {
+    const result = await this.model.aggregate([
+      {
+        $match: { discordId },
+      },
+      {
+        $group: {
+          totalAssists: { $sum: '$assists' },
+          totalGamesWon: { $sum: '$gamesWon' },
+        },
+      },
+    ]);
+
+    console.log('sums', result);
+
+    return result[0].totalSum;
+  }
 }
