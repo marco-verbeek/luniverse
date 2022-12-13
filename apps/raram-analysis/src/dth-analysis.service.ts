@@ -53,9 +53,9 @@ export class DTHAnalysisService {
         damageTakenGain: 0,
         deathsGain: 0,
         healedGain: 0,
-        KPGain: 0,
+        killParticipationGain: 0,
 
-        lpGain: 0,
+        poroPointsGain: 0,
       };
 
       players.push(player);
@@ -114,7 +114,7 @@ export class DTHAnalysisService {
       );
 
       // Calculate LP gains
-      player.KPGain = this.calculateGain({
+      player.killParticipationGain = this.calculateGain({
         gain: player.teamComparedKP,
         resultMultiplier: 2,
       });
@@ -134,9 +134,9 @@ export class DTHAnalysisService {
 
       const winLoseGain = team.win ? 10 : -10;
 
-      player.lpGain = this.format(
+      player.poroPointsGain = this.format(
         winLoseGain +
-          player.KPGain +
+          player.killParticipationGain +
           player.deathsGain +
           Math.max(
             player.damageDoneGain,

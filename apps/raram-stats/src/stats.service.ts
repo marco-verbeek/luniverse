@@ -40,14 +40,14 @@ export class StatsService {
             gamesPlayed: 1,
             gamesWon: gameWon ? 1 : 0,
 
-            pointsWon: gameWon ? player.lpGain : 0,
-            pointsLost: gameWon ? 0 : player.lpGain * -1,
+            pointsWon: gameWon ? player.poroPointsGain : 0,
+            pointsLost: gameWon ? 0 : player.poroPointsGain * -1,
 
-            totalKP: player.kills + player.assists,
             totalDamageDone: player.damageDone,
             totalDamageTaken: player.damageTaken,
             totalHealed: player.healed,
 
+            totalKillParticipation: player.kills + player.assists,
             doubleKills: player.doubleKills,
             tripleKills: player.tripleKills,
             quadraKills: player.quadraKills,
@@ -67,10 +67,10 @@ export class StatsService {
           $inc: {
             rankedGames: 1,
             wins: gameWon ? 1 : 0,
-            poroPoints: player.lpGain,
+            poroPoints: player.poroPointsGain,
 
-            pointsWon: gameWon ? player.lpGain : 0,
-            pointsLost: gameWon ? 0 : player.lpGain * -1,
+            pointsWon: gameWon ? player.poroPointsGain : 0,
+            pointsLost: gameWon ? 0 : player.poroPointsGain * -1,
 
             kills: player.kills,
             deaths: player.deaths,
