@@ -1,17 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { ChampionRepository } from './repositories/champion.repository';
 import { GameRepository } from './repositories/game.repository';
 import { PlayedChampionRepository } from './repositories/played-champion.repository';
-import { PlayerRepository } from './repositories/player.repository';
 
 @Injectable()
 export class StatsService {
   constructor(
-    private readonly championRepository: ChampionRepository,
     private readonly gameRepository: GameRepository,
     private readonly playedChampRepository: PlayedChampionRepository,
-    private readonly playerRepository: PlayerRepository,
   ) {}
 
   async write(data: any) {
@@ -31,64 +27,6 @@ export class StatsService {
     for (const player of players) {
       const gameWon = player.team === winningTeamId;
 
-      // Write champion data
-      await this.championRepository.findOneAndUpdate(
-        { id: player.championId },
-        {
-          $set: { id: player.championId, name: player.champion },
-          $inc: {
-            gamesPlayed: 1,
-            gamesWon: gameWon ? 1 : 0,
-
-            pointsWon: gameWon ? player.poroPointsGain : 0,
-            pointsLost: gameWon ? 0 : player.poroPointsGain * -1,
-
-            totalDamageDone: player.damageDone,
-            totalDamageTaken: player.damageTaken,
-            totalHealed: player.healed,
-
-            totalKillParticipation: player.kills + player.assists,
-            doubleKills: player.doubleKills,
-            tripleKills: player.tripleKills,
-            quadraKills: player.quadraKills,
-            pentaKills: player.pentaKills,
-          },
-        },
-        true,
-      );
-
-      // Write player data
-      await this.playerRepository.findOneAndUpdate(
-        {
-          discordId: player.discordId,
-        },
-        {
-          $set: { discordId: player.discordId },
-          $inc: {
-            rankedGames: 1,
-            wins: gameWon ? 1 : 0,
-            poroPoints: player.poroPointsGain,
-
-            pointsWon: gameWon ? player.poroPointsGain : 0,
-            pointsLost: gameWon ? 0 : player.poroPointsGain * -1,
-
-            kills: player.kills,
-            deaths: player.deaths,
-            assists: player.assists,
-
-            damageDone: player.damageDone,
-            damageTaken: player.damageTaken,
-            healed: player.healed,
-
-            doubleKills: player.doubleKills,
-            tripleKills: player.tripleKills,
-            quadraKills: player.quadraKills,
-            pentaKills: player.pentaKills,
-          },
-        },
-        true,
-      );
-
       // Write played-champion data
       await this.playedChampRepository.findOneAndUpdate(
         {
@@ -97,10 +35,68 @@ export class StatsService {
         },
         {
           $set: { championId: player.championId, discordId: player.discordId },
-          $inc: { gamesPlayed: 1, gamesWon: gameWon ? 1 : 0 },
+          $inc: {
+            gamesPlayed: 1,
+            gamesWon: gameWon ? 1 : 0,
+            pointsWon: gameWon ? player.poroPointsGain : 0,
+            pointsLost: gameWon ? 0 : player.poroPointsGain * -1,
+
+            kills: player.kills,
+            deaths: player.deaths,
+            assists: player.assists,
+
+            doubleKills: player.doubleKills,
+            tripleKills: player.tripleKills,
+            quadraKills: player.quadraKills,
+            pentaKills: player.pentaKills,
+
+            firstBloodKills: player.firstBloodKill ? 1 : 0,
+            firstBloodAssists: player.firstBloodAssist ? 1 : 0,
+
+            damageDone: player.damageDone,
+            damageTaken: player.damageTaken,
+            healed: player.healed,
+
+            spell1Casts: player.spell1Casts,
+            spell2Casts: player.spell2Casts,
+            spell3Casts: player.spell3Casts,
+            spell4Casts: player.spell4Casts,
+
+            champLevel: player.champLevel,
+            timePlayed: player.timePlayed,
+            timeCCingOthers: player.timeCCingOthers,
+            totalTimeSpentDead: player.totalTimeSpentDead,
+
+            goldEarned: player.goldEarned,
+            goldSpent: player.goldSpent,
+            totalMinionsKilled: player.totalMinionsKilled,
+            itemsPurchased: player.itemsPurchased,
+          },
         },
         true,
       );
     }
+  }
+
+  async getUserStatsById(discordId: string) {
+    const stats = await this.playedChampRepository.getPlayerSums(discordId);
+
+    if (!stats) {
+      throw new NotFoundException('Player has not yet played a rARAM game');
+    }
+
+    return stats[0];
+  }
+
+  async getChampionStatsById(championId: string) {
+    const stats = await this.playedChampRepository.getChampionSums(
+      Number(championId),
+    );
+
+    if (!stats) {
+      throw new NotFoundException('Champion has not yet been played');
+    }
+
+    return stats[0];
   }
 }

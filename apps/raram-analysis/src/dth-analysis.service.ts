@@ -16,19 +16,13 @@ export class DTHAnalysisService {
     // Iterate once over each player, keeping interesting stats and appending them to the team.
     for (const participant of matchDataInfo.participants) {
       const player: Player = {
+        ...participant,
+
         puuid: participant.puuid,
         teamId: participant.teamId,
-
+        champion: participant.championName,
         // Will be linked later.
         discordId: null,
-
-        summonerName: participant.summonerName,
-        championId: participant.championId,
-        champion: participant.championName,
-
-        kills: participant.kills,
-        deaths: participant.deaths,
-        assists: participant.assists,
 
         damageDone: participant.totalDamageDealtToChampions,
         damageTaken: participant.totalDamageTaken,
@@ -36,11 +30,6 @@ export class DTHAnalysisService {
           participant.totalDamageShieldedOnTeammates +
           participant.totalHealsOnTeammates +
           participant.totalHeal,
-
-        doubleKills: participant.doubleKills,
-        tripleKills: participant.tripleKills,
-        quadraKills: participant.quadraKills,
-        pentaKills: participant.pentaKills,
 
         // Will be calculated later.
         teamComparedKP: 0,
