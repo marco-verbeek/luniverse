@@ -15,20 +15,94 @@ export class PlayedChampionRepository extends AbstractRepository<PlayedChampion>
   }
 
   async getPlayerSums(discordId: string) {
-    const result = await this.model.aggregate([
+    return this.model.aggregate([
       {
         $match: { discordId },
       },
       {
         $group: {
-          totalAssists: { $sum: '$assists' },
-          totalGamesWon: { $sum: '$gamesWon' },
+          _id: null,
+          gamesPlayed: { $sum: '$gamesPlayed' },
+          gamesWon: { $sum: '$gamesWon' },
+          pointsWon: { $sum: '$pointsWon' },
+          pointsLost: { $sum: '$pointsLost' },
+          kills: { $sum: '$kills' },
+          deaths: { $sum: '$deaths' },
+          assists: { $sum: '$assists' },
+          doubleKills: { $sum: '$doubleKills' },
+          tripleKills: { $sum: '$tripleKills' },
+          quadraKills: { $sum: '$quadraKills' },
+          pentaKills: { $sum: '$pentaKills' },
+          firstBloodKills: { $sum: '$firstBloodKills' },
+          firstBloodAssists: { $sum: '$firstBloodAssists' },
+          damageDone: { $sum: '$damageDone' },
+          damageTaken: { $sum: '$damageTaken' },
+          healed: { $sum: '$healed' },
+          spell1Casts: { $sum: '$spell1Casts' },
+          spell2Casts: { $sum: '$spell2Casts' },
+          spell3Casts: { $sum: '$spell3Casts' },
+          spell4Casts: { $sum: '$spell4Casts' },
+          champLevel: { $sum: '$champLevel' },
+          timePlayed: { $sum: '$timePlayed' },
+          timeCCingOthers: { $sum: '$timeCCingOthers' },
+          totalTimeSpentDead: { $sum: '$totalTimeSpentDead' },
+          goldEarned: { $sum: '$goldEarned' },
+          goldSpent: { $sum: '$goldSpent' },
+          totalMinionsKilled: { $sum: '$totalMinionsKilled' },
+          itemsPurchased: { $sum: '$itemsPurchased' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
         },
       },
     ]);
+  }
 
-    console.log('sums', result);
-
-    return result[0].totalSum;
+  async getChampionSums(championId: number) {
+    return this.model.aggregate([
+      {
+        $match: { championId },
+      },
+      {
+        $group: {
+          _id: null,
+          gamesPlayed: { $sum: '$gamesPlayed' },
+          gamesWon: { $sum: '$gamesWon' },
+          pointsWon: { $sum: '$pointsWon' },
+          pointsLost: { $sum: '$pointsLost' },
+          kills: { $sum: '$kills' },
+          deaths: { $sum: '$deaths' },
+          assists: { $sum: '$assists' },
+          doubleKills: { $sum: '$doubleKills' },
+          tripleKills: { $sum: '$tripleKills' },
+          quadraKills: { $sum: '$quadraKills' },
+          pentaKills: { $sum: '$pentaKills' },
+          firstBloodKills: { $sum: '$firstBloodKills' },
+          firstBloodAssists: { $sum: '$firstBloodAssists' },
+          damageDone: { $sum: '$damageDone' },
+          damageTaken: { $sum: '$damageTaken' },
+          healed: { $sum: '$healed' },
+          spell1Casts: { $sum: '$spell1Casts' },
+          spell2Casts: { $sum: '$spell2Casts' },
+          spell3Casts: { $sum: '$spell3Casts' },
+          spell4Casts: { $sum: '$spell4Casts' },
+          champLevel: { $sum: '$champLevel' },
+          timePlayed: { $sum: '$timePlayed' },
+          timeCCingOthers: { $sum: '$timeCCingOthers' },
+          totalTimeSpentDead: { $sum: '$totalTimeSpentDead' },
+          goldEarned: { $sum: '$goldEarned' },
+          goldSpent: { $sum: '$goldSpent' },
+          totalMinionsKilled: { $sum: '$totalMinionsKilled' },
+          itemsPurchased: { $sum: '$itemsPurchased' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+        },
+      },
+    ]);
   }
 }

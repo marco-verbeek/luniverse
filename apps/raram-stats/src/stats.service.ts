@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { GameRepository } from './repositories/game.repository';
 import { PlayedChampionRepository } from './repositories/played-champion.repository';
@@ -79,10 +79,24 @@ export class StatsService {
   }
 
   async getUserStatsById(discordId: string) {
-    return this.playedChampRepository.getPlayerSums(discordId);
+    const stats = await this.playedChampRepository.getPlayerSums(discordId);
+
+    if (!stats) {
+      throw new NotFoundException('Player has not yet played a rARAM game');
+    }
+
+    return stats[0];
   }
 
   async getChampionStatsById(championId: string) {
-    return null;
+    const stats = await this.playedChampRepository.getChampionSums(
+      Number(championId),
+    );
+
+    if (!stats) {
+      throw new NotFoundException('Champion has not yet been played');
+    }
+
+    return stats[0];
   }
 }
