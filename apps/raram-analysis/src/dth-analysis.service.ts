@@ -16,19 +16,13 @@ export class DTHAnalysisService {
     // Iterate once over each player, keeping interesting stats and appending them to the team.
     for (const participant of matchDataInfo.participants) {
       const player: Player = {
+        ...participant,
+
         puuid: participant.puuid,
         teamId: participant.teamId,
-
+        champion: participant.championName,
         // Will be linked later.
         discordId: null,
-
-        summonerName: participant.summonerName,
-        championId: participant.championId,
-        champion: participant.championName,
-
-        kills: participant.kills,
-        deaths: participant.deaths,
-        assists: participant.assists,
 
         damageDone: participant.totalDamageDealtToChampions,
         damageTaken: participant.totalDamageTaken,
@@ -36,36 +30,6 @@ export class DTHAnalysisService {
           participant.totalDamageShieldedOnTeammates +
           participant.totalHealsOnTeammates +
           participant.totalHeal,
-
-        doubleKills: participant.doubleKills,
-        tripleKills: participant.tripleKills,
-        quadraKills: participant.quadraKills,
-        pentaKills: participant.pentaKills,
-
-        goldEarned: participant.goldEarned,
-        goldSpent: participant.goldSpent,
-        totalMinionsKilled: participant.totalMinionsKilled,
-        itemsPurchased: participant.itemsPurchased,
-
-        firstBloodKill: participant.firstBloodKill,
-        firstBloodAssist: participant.firstBloodAssist,
-        totalTimeSpentDead: participant.totalTimeSpentDead,
-
-        champLevel: participant.champLevel,
-        timePlayed: participant.timePlayed,
-        timeCCingOthers: participant.timeCCingOthers,
-
-        spell1Casts: participant.spell1Casts,
-        spell2Casts: participant.spell2Casts,
-        spell3Casts: participant.spell3Casts,
-        spell4Casts: participant.spell4Casts,
-
-        summoner1Casts: participant.summoner1Casts,
-        summoner1Id: participant.summoner1Id,
-        summoner2Casts: participant.summoner2Casts,
-        summoner2Id: participant.summoner2Id,
-
-        // TODO: check if can be replaced by ...participant?
 
         // Will be calculated later.
         teamComparedKP: 0,
