@@ -35,9 +35,22 @@ export class AnalysisService {
       return alreadyAnalyzed;
     }
 
+    return this.analyzeByGameId(lastGameId);
+  }
+
+  async analyzeByGameId(gameId: string) {
+    // See if the game has already been analyzed in the past
+    const alreadyAnalyzed = await this.analysisRepository.findOne({
+      gameId,
+    });
+
+    if (alreadyAnalyzed) {
+      return alreadyAnalyzed;
+    }
+
     // Fetch official match data
     const match = await this.matchV5Service.getMatchById(
-      lastGameId,
+      gameId,
       RegionGroups.EUROPE,
     );
 
@@ -58,7 +71,17 @@ export class AnalysisService {
     return gameAnalysis;
   }
 
-  async addDiscordIdsToPlayers(analysis: AnalysisDTO) {
+  async getMatchHistory(user) {
+    const history = await this.matchV5Service.listMatches(
+      user.leagueAccount.puuid,
+      RegionGroups.EUROPE,
+      { queue: 450, count: 10 },
+    );
+    console.log(history);
+    return history.response;
+  }
+
+  private async addDiscordIdsToPlayers(analysis: AnalysisDTO) {
     const summonerNames = analysis.players.map((player) => player.summonerName);
     const accounts = await this.fetchPlayerDiscordIds(summonerNames);
 
@@ -71,7 +94,7 @@ export class AnalysisService {
     }
   }
 
-  async fetchPlayerDiscordIds(summonerNames) {
+  private async fetchPlayerDiscordIds(summonerNames) {
     const url = new URL('http://auth:3001/auth/users');
     const params = new URLSearchParams();
 
