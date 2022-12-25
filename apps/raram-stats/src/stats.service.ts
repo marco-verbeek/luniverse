@@ -43,8 +43,8 @@ export class StatsService {
           $inc: {
             gamesPlayed: 1,
             gamesWon: gameWon ? 1 : 0,
-            pointsWon: gameWon ? player.poroPointsGain : 0,
-            pointsLost: gameWon ? 0 : player.poroPointsGain * -1,
+            poroSnaxWon: gameWon ? player.poroSnaxGain : 0,
+            poroSnaxLost: gameWon ? 0 : Math.abs(player.poroSnaxGain),
 
             kills: player.kills,
             deaths: player.deaths,

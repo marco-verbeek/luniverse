@@ -42,7 +42,7 @@ export class DTHAnalysisService {
         healedGain: 0,
         killParticipationGain: 0,
 
-        poroPointsGain: 0,
+        poroSnaxGain: 0,
       };
 
       players.push(player);
@@ -121,7 +121,7 @@ export class DTHAnalysisService {
 
       const winLoseGain = team.win ? 10 : -10;
 
-      player.poroPointsGain = this.format(
+      player.poroSnaxGain = this.format(
         winLoseGain +
           player.killParticipationGain +
           player.deathsGain +

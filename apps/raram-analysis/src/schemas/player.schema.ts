@@ -61,7 +61,7 @@ export class Player {
   healedGain: number;
 
   @Prop()
-  poroPointsGain: number;
+  poroSnaxGain: number;
 
   @Prop()
   goldEarned: number;
