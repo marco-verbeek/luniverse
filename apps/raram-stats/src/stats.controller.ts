@@ -12,9 +12,9 @@ export class StatsController {
     return this.statsService.write(data);
   }
 
-  @Get('users/:discordId')
-  async getUserStatsById(@Param('discordId') discordId: string) {
-    return this.statsService.getUserStatsById(discordId);
+  @Get('players/:summonerName')
+  async getUserStatsById(@Param('summonerName') summonerName: string) {
+    return this.statsService.getUserStatsBySummonerName(summonerName);
   }
 
   @Get('champions/:championId')
