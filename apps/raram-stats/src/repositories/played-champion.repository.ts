@@ -48,10 +48,10 @@ export class PlayedChampionRepository extends AbstractRepository<PlayedChampion>
     },
   };
 
-  async getPlayerSums(discordId: string) {
+  async getPlayerSums(puuid: string) {
     return this.model.aggregate([
       {
-        $match: { discordId },
+        $match: { puuid },
       },
       this.groupSumStats,
       {

@@ -1,4 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { SummonerV4Service } from '@luni/riot-api';
+import { Regions } from 'twisted/dist/constants';
 
 import { GameRepository } from './repositories/game.repository';
 import { PlayedChampionRepository } from './repositories/played-champion.repository';
@@ -8,6 +10,7 @@ export class StatsService {
   constructor(
     private readonly gameRepository: GameRepository,
     private readonly playedChampRepository: PlayedChampionRepository,
+    private readonly summonerV4Service: SummonerV4Service,
   ) {}
 
   async write(data: any) {
@@ -19,8 +22,10 @@ export class StatsService {
     // Write game to db.games in order to not write stats twice.
     await this.gameRepository.create({ gameId: data.gameId });
 
-    // Only keep the players that have a rARAM account.
-    const players = data.players.filter((player) => !!player.discordId);
+    // TODO: Only keep the players that have a Luni account.
+    // const players = data.players.filter((player) => !!player.luniId);
+
+    const players = data.players;
     const { id: winningTeamId } = data.teams.find((team) => team.win);
 
     // TODO: improve 'promises in for...of'
@@ -31,10 +36,10 @@ export class StatsService {
       await this.playedChampRepository.findOneAndUpdate(
         {
           championId: player.championId,
-          discordId: player.discordId,
+          puuid: player.puuid,
         },
         {
-          $set: { championId: player.championId, discordId: player.discordId },
+          $set: { championId: player.championId, puuid: player.puuid },
           $inc: {
             gamesPlayed: 1,
             gamesWon: gameWon ? 1 : 0,
@@ -78,8 +83,15 @@ export class StatsService {
     }
   }
 
-  async getUserStatsById(discordId: string) {
-    const stats = await this.playedChampRepository.getPlayerSums(discordId);
+  async getUserStatsBySummonerName(summonerName: string) {
+    const {
+      response: { puuid },
+    } = await this.summonerV4Service.getSummonerByName(
+      summonerName,
+      Regions.EU_WEST,
+    );
+
+    const stats = await this.playedChampRepository.getPlayerSums(puuid);
 
     if (!stats) {
       throw new NotFoundException('Player has not yet played a rARAM game');

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule, RmqModule } from '@luni/common';
+import { RiotAPIModule } from '@luni/riot-api';
 import * as Joi from 'joi';
 
 import { StatsController } from './stats.controller';
@@ -26,6 +27,7 @@ import { PlayedChampionRepository } from './repositories/played-champion.reposit
         RABBIT_MQ_RARAM_STATS_QUEUE: Joi.string().required(),
       }),
     }),
+    RiotAPIModule,
     RmqModule,
     DatabaseModule,
     MongooseModule.forFeature([

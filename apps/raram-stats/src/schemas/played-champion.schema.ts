@@ -6,7 +6,7 @@ export class PlayedChampion extends AbstractDocument {
   @Prop({ index: true })
   championId: number;
   @Prop({ index: true })
-  discordId: string;
+  puuid: string;
 
   @Prop()
   gamesPlayed: number;
