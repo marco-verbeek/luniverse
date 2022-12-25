@@ -80,14 +80,14 @@ services:
     networks:
       - internal-network
 
-  stats:
+  raram-stats:
     build:
       context: .
-      dockerfile: ./apps/stats/Dockerfile
+      dockerfile: ./apps/raram-stats/Dockerfile
       target: development
-    command: npm run start:dev stats
+    command: npm run start:dev raram-stats
     env_file:
-      - ./apps/stats/.env
+      - ./apps/raram-stats/.env
     depends_on:
       - rabbitmq
       - mongodb-stats
