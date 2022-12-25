@@ -14,9 +14,9 @@ export class PlayedChampion extends AbstractDocument {
   gamesWon: number;
 
   @Prop()
-  pointsWon: number;
+  poroSnaxWon: number;
   @Prop()
-  pointsLost: number;
+  poroSnaxLost: number;
 
   @Prop()
   kills: number;
