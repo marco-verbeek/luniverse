@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
+import { STATS_QUEUE } from '@luni/common';
 import { RegionGroups, Regions } from 'twisted/dist/constants';
 
 import { DTHAnalysisService } from './dth-analysis.service';
@@ -9,7 +10,7 @@ import { AnalysisRepository } from './analysis.repository';
 @Injectable()
 export class AnalysisService {
   constructor(
-    @Inject('RARAM_STATS') private statsClient: ClientProxy,
+    @Inject(STATS_QUEUE) private statsClient: ClientProxy,
     private readonly matchV5Service: MatchV5Service,
     private readonly summonerV4Service: SummonerV4Service,
     private readonly dthAnalysisService: DTHAnalysisService,

@@ -2,11 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AbstractDocument } from '@luni/common';
 
 @Schema({ versionKey: false, _id: false })
-export class PlayedChampion extends AbstractDocument {
+export class Champion extends AbstractDocument {
   @Prop({ index: true })
   championId: number;
-  @Prop({ index: true })
-  puuid: string;
 
   @Prop()
   gamesPlayed: number;
@@ -74,5 +72,4 @@ export class PlayedChampion extends AbstractDocument {
   itemsPurchased: number;
 }
 
-export const PlayedChampionSchema =
-  SchemaFactory.createForClass(PlayedChampion);
+export const ChampionSchema = SchemaFactory.createForClass(Champion);

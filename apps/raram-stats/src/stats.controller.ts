@@ -14,11 +14,11 @@ export class StatsController {
 
   @Get('players/:summonerName')
   async getUserStatsById(@Param('summonerName') summonerName: string) {
-    return this.statsService.getUserStatsBySummonerName(summonerName);
+    return this.statsService.getUserStats(summonerName);
   }
 
   @Get('champions/:championId')
   async getChampionStatsById(@Param('championId') championId: string) {
-    return this.statsService.getChampionStatsById(championId);
+    return this.statsService.getChampionStats(championId);
   }
 }
