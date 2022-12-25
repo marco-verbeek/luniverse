@@ -4,7 +4,6 @@ export * from './database/database.module';
 
 export * from './rmq/rmq.module';
 export * from './rmq/rmq.service';
-export * from './rmq/contants/queues';
 
 export * from './auth/auth.module';
 export * from './auth/guards/discord-auth.guard';
