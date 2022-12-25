@@ -14,6 +14,7 @@ export class Team {
   assists: number;
   @Prop()
   deaths: number;
+
   @Prop()
   damageDone: number;
   @Prop()

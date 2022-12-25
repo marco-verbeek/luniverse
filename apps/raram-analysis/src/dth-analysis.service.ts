@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { MatchV5DTOs } from 'twisted/dist/models-dto';
 
+import { Analysis } from './schemas/analysis.schema';
 import { Player } from './schemas/player.schema';
 import { Team } from './schemas/team.schema';
-import { AnalysisDTO } from './types/analysis.type';
 
 @Injectable()
 export class DTHAnalysisService {
-  performMatchAnalysis(match: MatchV5DTOs.MatchDto): AnalysisDTO {
+  performMatchAnalysis(match: MatchV5DTOs.MatchDto): Omit<Analysis, '_id'> {
     const matchDataInfo = match.info;
 
     const players: Player[] = [];
@@ -21,8 +21,6 @@ export class DTHAnalysisService {
         puuid: participant.puuid,
         teamId: participant.teamId,
         champion: participant.championName,
-        // Will be linked later.
-        discordId: null,
 
         damageDone: participant.totalDamageDealtToChampions,
         damageTaken: participant.totalDamageTaken,

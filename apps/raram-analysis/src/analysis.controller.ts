@@ -1,5 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { DiscordAuthGuard, GetCurrentUser } from '@luni/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 import { AnalysisService } from './analysis.service';
 
@@ -7,9 +6,8 @@ import { AnalysisService } from './analysis.service';
 export class AnalysisController {
   constructor(private readonly analysisService: AnalysisService) {}
 
-  @Get('last')
-  @UseGuards(DiscordAuthGuard)
-  async getLastGameAnalysis(@GetCurrentUser() user) {
-    return this.analysisService.lastGame(user);
+  @Get(':summonerName/latest')
+  async getLastGameAnalysis(@Param('summonerName') summonerName: string) {
+    return this.analysisService.lastGame(summonerName);
   }
 }
