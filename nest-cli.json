@@ -54,13 +54,13 @@
         "tsConfigPath": "apps/raram-analysis/tsconfig.app.json"
       }
     },
-    "raram-stats": {
+    "stats": {
       "type": "application",
-      "root": "apps/raram-stats",
+      "root": "apps/stats",
       "entryFile": "main",
-      "sourceRoot": "apps/raram-stats/src",
+      "sourceRoot": "apps/stats/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/raram-stats/tsconfig.app.json"
+        "tsConfigPath": "apps/stats/tsconfig.app.json"
       }
     }
   }

@@ -7,7 +7,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build raram-stats
+RUN npm run build stats
 
 FROM node:alpine as production
 WORKDIR /usr/src/app
@@ -23,4 +23,4 @@ COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/raram-stats/main"]
+CMD ["node", "dist/apps/stats/main"]
