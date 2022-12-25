@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule, DatabaseModule, RmqModule } from '@luni/common';
+import { DatabaseModule, RmqModule, STATS_QUEUE } from '@luni/common';
 import { RiotAPIModule } from '@luni/riot-api';
 import * as Joi from 'joi';
 
@@ -24,7 +24,7 @@ import { Analysis, AnalysisSchema } from './schemas/analysis.schema';
       }),
     }),
     RmqModule.register({
-      name: 'RARAM_STATS',
+      name: STATS_QUEUE,
     }),
     RiotAPIModule,
     DatabaseModule,
