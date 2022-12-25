@@ -89,7 +89,6 @@ services:
     env_file:
       - ./apps/raram-stats/.env
     depends_on:
-      - auth
       - rabbitmq
       - mongodb-stats
     ports:

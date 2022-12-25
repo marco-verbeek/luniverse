@@ -25,6 +25,7 @@ import { PlayedChampionRepository } from './repositories/played-champion.reposit
         PORT: Joi.number().required(),
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_RARAM_STATS_QUEUE: Joi.string().required(),
+        RIOT_API_KEY: Joi.string().required(),
       }),
     }),
     RiotAPIModule,
