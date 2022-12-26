@@ -103,7 +103,7 @@ export class StatsService {
     }
   }
 
-  async getUserStats(summonerName: string) {
+  async getPlayerStats(summonerName: string) {
     const {
       response: { puuid },
     } = await this.summonerV4Service.getSummonerByName(
