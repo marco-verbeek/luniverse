@@ -4,12 +4,16 @@ import { Regions } from 'twisted/dist/constants';
 
 import { GameRepository } from './repositories/game.repository';
 import { PlayedChampionRepository } from './repositories/played-champion.repository';
+import { ChampionRepository } from './repositories/champion.repository';
+import { PlayerRepository } from './repositories/player.repository';
 
 @Injectable()
 export class StatsService {
   constructor(
     private readonly gameRepository: GameRepository,
     private readonly playedChampRepository: PlayedChampionRepository,
+    private readonly championRepository: ChampionRepository,
+    private readonly playerRepository: PlayerRepository,
     private readonly summonerV4Service: SummonerV4Service,
   ) {}
 
@@ -32,6 +36,58 @@ export class StatsService {
     for (const player of players) {
       const gameWon = player.team === winningTeamId;
 
+      const incrementStats = {
+        gamesPlayed: 1,
+        gamesWon: gameWon ? 1 : 0,
+        poroSnaxWon: gameWon ? player.poroSnaxGain : 0,
+        poroSnaxLost: gameWon ? 0 : Math.abs(player.poroSnaxGain),
+
+        kills: player.kills,
+        deaths: player.deaths,
+        assists: player.assists,
+
+        doubleKills: player.doubleKills,
+        tripleKills: player.tripleKills,
+        quadraKills: player.quadraKills,
+        pentaKills: player.pentaKills,
+
+        firstBloodKills: player.firstBloodKill ? 1 : 0,
+        firstBloodAssists: player.firstBloodAssist ? 1 : 0,
+
+        damageDone: player.damageDone,
+        damageTaken: player.damageTaken,
+        healed: player.healed,
+
+        spell1Casts: player.spell1Casts,
+        spell2Casts: player.spell2Casts,
+        spell3Casts: player.spell3Casts,
+        spell4Casts: player.spell4Casts,
+
+        champLevel: player.champLevel,
+        timePlayed: player.timePlayed,
+        timeCCingOthers: player.timeCCingOthers,
+        totalTimeSpentDead: player.totalTimeSpentDead,
+
+        goldEarned: player.goldEarned,
+        goldSpent: player.goldSpent,
+        totalMinionsKilled: player.totalMinionsKilled,
+        itemsPurchased: player.itemsPurchased,
+      };
+
+      // Write champion data
+      await this.championRepository.findOneAndUpdate(
+        { championId: player.championId },
+        { $set: { championId: player.championId }, $inc: incrementStats },
+        true,
+      );
+
+      // Write player data
+      await this.playerRepository.findOneAndUpdate(
+        { puuid: player.puuid },
+        { $set: { puuid: player.puuid }, $inc: incrementStats },
+        true,
+      );
+
       // Write played-champion data
       await this.playedChampRepository.findOneAndUpdate(
         {
@@ -40,50 +96,14 @@ export class StatsService {
         },
         {
           $set: { championId: player.championId, puuid: player.puuid },
-          $inc: {
-            gamesPlayed: 1,
-            gamesWon: gameWon ? 1 : 0,
-            poroSnaxWon: gameWon ? player.poroSnaxGain : 0,
-            poroSnaxLost: gameWon ? 0 : Math.abs(player.poroSnaxGain),
-
-            kills: player.kills,
-            deaths: player.deaths,
-            assists: player.assists,
-
-            doubleKills: player.doubleKills,
-            tripleKills: player.tripleKills,
-            quadraKills: player.quadraKills,
-            pentaKills: player.pentaKills,
-
-            firstBloodKills: player.firstBloodKill ? 1 : 0,
-            firstBloodAssists: player.firstBloodAssist ? 1 : 0,
-
-            damageDone: player.damageDone,
-            damageTaken: player.damageTaken,
-            healed: player.healed,
-
-            spell1Casts: player.spell1Casts,
-            spell2Casts: player.spell2Casts,
-            spell3Casts: player.spell3Casts,
-            spell4Casts: player.spell4Casts,
-
-            champLevel: player.champLevel,
-            timePlayed: player.timePlayed,
-            timeCCingOthers: player.timeCCingOthers,
-            totalTimeSpentDead: player.totalTimeSpentDead,
-
-            goldEarned: player.goldEarned,
-            goldSpent: player.goldSpent,
-            totalMinionsKilled: player.totalMinionsKilled,
-            itemsPurchased: player.itemsPurchased,
-          },
+          $inc: incrementStats,
         },
         true,
       );
     }
   }
 
-  async getUserStatsBySummonerName(summonerName: string) {
+  async getPlayerStats(summonerName: string) {
     const {
       response: { puuid },
     } = await this.summonerV4Service.getSummonerByName(
@@ -91,24 +111,24 @@ export class StatsService {
       Regions.EU_WEST,
     );
 
-    const stats = await this.playedChampRepository.getPlayerSums(puuid);
+    const stats = await this.playerRepository.findOne({ puuid });
 
     if (!stats) {
       throw new NotFoundException('Player has not yet played a rARAM game');
     }
 
-    return stats[0];
+    return stats;
   }
 
-  async getChampionStatsById(championId: string) {
-    const stats = await this.playedChampRepository.getChampionSums(
-      Number(championId),
-    );
+  async getChampionStats(championId: string) {
+    const stats = await this.championRepository.findOne({
+      championId: Number(championId),
+    });
 
     if (!stats) {
       throw new NotFoundException('Champion has not yet been played');
     }
 
-    return stats[0];
+    return stats;
   }
 }

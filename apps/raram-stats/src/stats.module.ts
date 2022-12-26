@@ -12,8 +12,12 @@ import {
   PlayedChampion,
   PlayedChampionSchema,
 } from './schemas/played-champion.schema';
+import { Champion, ChampionSchema } from './schemas/champion.schema';
+import { Player, PlayerSchema } from './schemas/player.schema';
 import { GameRepository } from './repositories/game.repository';
 import { PlayedChampionRepository } from './repositories/played-champion.repository';
+import { ChampionRepository } from './repositories/champion.repository';
+import { PlayerRepository } from './repositories/player.repository';
 
 @Module({
   imports: [
@@ -24,7 +28,7 @@ import { PlayedChampionRepository } from './repositories/played-champion.reposit
         MONGODB_URI: Joi.string().required(),
         PORT: Joi.number().required(),
         RABBIT_MQ_URI: Joi.string().required(),
-        RABBIT_MQ_RARAM_STATS_QUEUE: Joi.string().required(),
+        RABBIT_MQ_STATS_QUEUE: Joi.string().required(),
         RIOT_API_KEY: Joi.string().required(),
       }),
     }),
@@ -34,9 +38,17 @@ import { PlayedChampionRepository } from './repositories/played-champion.reposit
     MongooseModule.forFeature([
       { name: AnalyzedGame.name, schema: AnalyzedGameSchema },
       { name: PlayedChampion.name, schema: PlayedChampionSchema },
+      { name: Champion.name, schema: ChampionSchema },
+      { name: Player.name, schema: PlayerSchema },
     ]),
   ],
   controllers: [StatsController],
-  providers: [StatsService, GameRepository, PlayedChampionRepository],
+  providers: [
+    StatsService,
+    GameRepository,
+    PlayedChampionRepository,
+    ChampionRepository,
+    PlayerRepository,
+  ],
 })
 export class StatsModule {}
