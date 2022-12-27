@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
 import { STATS_QUEUE } from '@luni/common';
@@ -62,5 +62,50 @@ export class AnalysisService {
     await this.statsClient.emit('game_analyzed', gameAnalysis);
 
     return gameAnalysis;
+  }
+
+  async getPlayerHistory(summonerName: string) {
+    // Fetch the Riot Profile associated with the summoner name.
+    const {
+      response: { puuid },
+    } = await this.summonerV4Service.getSummonerByName(
+      summonerName,
+      Regions.EU_WEST,
+    );
+
+    const history = await this.analysisRepository.find(
+      {
+        'players.puuid': puuid,
+      },
+      { limit: 10 },
+    );
+
+    if (!history) {
+      throw new NotFoundException('Player has not yet played a rARAM');
+    }
+
+    // win, players (champId, summName, snaxGain)
+    const formattedHistory = [];
+
+    for (const game of history) {
+      const { id: winningTeamId } = game.teams.find((team) => team.win);
+      const { teamId: playerTeam } = game.players.find(
+        (player) => player.summonerName === summonerName,
+      );
+
+      // Format players to only keep certain properties.
+      const players = game.players.map((player) => ({
+        championId: player.championId,
+        summonerName: player.summonerName,
+        snaxGain: player.poroSnaxGain,
+      }));
+
+      formattedHistory.push({
+        win: playerTeam === winningTeamId,
+        players,
+      });
+    }
+
+    return formattedHistory;
   }
 }
