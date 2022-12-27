@@ -84,7 +84,6 @@ export class AnalysisService {
       throw new NotFoundException('Player has not yet played a rARAM');
     }
 
-    // win, players (champId, summName, snaxGain)
     const formattedHistory = [];
 
     for (const game of history) {
