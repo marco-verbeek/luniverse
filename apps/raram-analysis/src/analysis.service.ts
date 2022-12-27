@@ -80,7 +80,7 @@ export class AnalysisService {
       { limit: 10 },
     );
 
-    if (!history) {
+    if (!history || history.length === 0) {
       throw new NotFoundException('Player has not yet played a rARAM');
     }
 
