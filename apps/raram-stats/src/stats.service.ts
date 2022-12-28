@@ -34,7 +34,7 @@ export class StatsService {
 
     // TODO: improve 'promises in for...of'
     for (const player of players) {
-      const gameWon = player.team === winningTeamId;
+      const gameWon = player.teamId === winningTeamId;
 
       const incrementStats = {
         gamesPlayed: 1,
