@@ -77,7 +77,7 @@ export class AnalysisService {
       {
         'players.puuid': puuid,
       },
-      { limit: 10 },
+      { limit: 10, sort: { _id: -1 } },
     );
 
     if (!history || history.length === 0) {
