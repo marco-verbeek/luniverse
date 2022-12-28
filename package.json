@@ -85,7 +85,8 @@
     ],
     "moduleNameMapper": {
       "^luni/common(|/.*)$": "<rootDir>/libs/common/src/$1",
-      "^@luni/riot-api(|/.*)$": "<rootDir>/libs/riot-api/src/$1"
+      "^@luni/riot-api(|/.*)$": "<rootDir>/libs/riot-api/src/$1",
+      "^@luni/champions(|/.*)$": "<rootDir>/libs/champions/src/$1"
     }
   }
 }
