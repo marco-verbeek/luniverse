@@ -62,6 +62,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/raram-stats/tsconfig.app.json"
       }
+    },
+    "champions": {
+      "type": "library",
+      "root": "libs/champions",
+      "entryFile": "index",
+      "sourceRoot": "libs/champions/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/champions/tsconfig.lib.json"
+      }
     }
   }
 }
