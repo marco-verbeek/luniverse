@@ -95,6 +95,9 @@ export class AnalysisService {
       // Format players to only keep certain properties.
       const players = game.players.map((player) => ({
         championId: player.championId,
+        kills: player.kills,
+        deaths: player.deaths,
+        assists: player.assists,
         summonerName: player.summonerName,
         snaxGain: player.poroSnaxGain,
       }));
