@@ -12,6 +12,11 @@ export class StatsController {
     return this.statsService.write(data);
   }
 
+  @Get('players/:summonerName/champions')
+  async getPlayerChampionStats(@Param('summonerName') summonerName: string) {
+    return this.statsService.getPlayerChampionStats(summonerName);
+  }
+
   @Get('players/:summonerName')
   async getPlayerStats(@Param('summonerName') summonerName: string) {
     return this.statsService.getPlayerStats(summonerName);
