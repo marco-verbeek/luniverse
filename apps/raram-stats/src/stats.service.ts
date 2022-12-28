@@ -120,6 +120,41 @@ export class StatsService {
     return stats;
   }
 
+  async getPlayerChampionStats(summonerName: string) {
+    const {
+      response: { puuid },
+    } = await this.summonerV4Service.getSummonerByName(
+      summonerName,
+      Regions.EU_WEST,
+    );
+
+    const champStats = await this.playedChampRepository.find(
+      { puuid },
+      {
+        limit: 10,
+        sort: { gamesPlayed: 1 },
+        fields: {
+          championId: 1,
+
+          gamesPlayed: 1,
+          gamesWon: 1,
+          poroSnaxWon: 1,
+          poroSnaxLost: 1,
+
+          kills: 1,
+          deaths: 1,
+          assists: 1,
+        },
+      },
+    );
+
+    if (!champStats) {
+      throw new NotFoundException('Player has not yet played a rARAM game');
+    }
+
+    return champStats;
+  }
+
   async getChampionStats(championId: string) {
     const stats = await this.championRepository.findOne({
       championId: Number(championId),

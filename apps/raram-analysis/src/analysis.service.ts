@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
 import { STATS_QUEUE } from '@luni/common';
@@ -64,8 +64,22 @@ export class AnalysisService {
     return gameAnalysis;
   }
 
+  async getPlayerProfile(summonerName: string) {
+    const {
+      response: { profileIconId, summonerLevel },
+    } = await this.summonerV4Service.getSummonerByName(
+      summonerName,
+      Regions.EU_WEST,
+    );
+
+    return {
+      name: summonerName,
+      level: summonerLevel,
+      iconId: profileIconId,
+    };
+  }
+
   async getPlayerHistory(summonerName: string) {
-    // Fetch the Riot Profile associated with the summoner name.
     const {
       response: { puuid },
     } = await this.summonerV4Service.getSummonerByName(
@@ -80,8 +94,8 @@ export class AnalysisService {
       { limit: 10, sort: { _id: -1 } },
     );
 
-    if (!history || history.length === 0) {
-      throw new NotFoundException('Player has not yet played a rARAM');
+    if (!history) {
+      return [];
     }
 
     const formattedHistory = [];
@@ -89,7 +103,7 @@ export class AnalysisService {
     for (const game of history) {
       const { id: winningTeamId } = game.teams.find((team) => team.win);
       const { teamId: playerTeam } = game.players.find(
-        (player) => player.summonerName === summonerName,
+        (player) => player.puuid === puuid,
       );
 
       // Format players to only keep certain properties.
