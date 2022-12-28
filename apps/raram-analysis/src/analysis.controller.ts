@@ -10,4 +10,9 @@ export class AnalysisController {
   async getLastGameAnalysis(@Param('summonerName') summonerName: string) {
     return this.analysisService.lastGame(summonerName);
   }
+
+  @Get(':summonerName/history')
+  async getPlayerHistory(@Param('summonerName') summonerName: string) {
+    return this.analysisService.getPlayerHistory(summonerName);
+  }
 }
