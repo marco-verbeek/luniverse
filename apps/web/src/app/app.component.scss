@@ -1,0 +1,19 @@
+@import 'src/styles.scss';
+
+.app-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  font-family: 'Poppins';
+  color: $gray-700;
+}
