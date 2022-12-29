@@ -11,6 +11,7 @@ export class AuthController {
     @Query('summonerName') summonerName: string,
     @Query('puuid') puuid: string,
   ) {
+    // TODO: fix return null
     if (summonerName) {
       return this.usersService.getUserBySummonerName(summonerName);
     } else if (puuid) {

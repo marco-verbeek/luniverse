@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { FetchUserByName, UserProfileDTO } from '@luni/common';
 
 import { AnalysisService } from './analysis.service';
 
@@ -13,8 +14,8 @@ export class AnalysisController {
 
   // TODO: move out of analysis microservice
   @Get(':summonerName/history')
-  async getPlayerHistory(@Param('summonerName') summonerName: string) {
-    return this.analysisService.getPlayerHistory(summonerName);
+  async getPlayerHistory(@FetchUserByName() user: UserProfileDTO) {
+    return this.analysisService.getPlayerHistory(user);
   }
 
   // TODO: move out of analysis microservice

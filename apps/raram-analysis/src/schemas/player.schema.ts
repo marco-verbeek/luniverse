@@ -6,6 +6,9 @@ export class Player {
   puuid: string;
 
   @Prop()
+  luniId: string;
+
+  @Prop()
   summonerName: string;
   @Prop()
   teamId: number;

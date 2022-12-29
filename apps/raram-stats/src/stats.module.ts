@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule, RmqModule } from '@luni/common';
-import { RiotAPIModule } from '@luni/riot-api';
 import * as Joi from 'joi';
 
 import { StatsController } from './stats.controller';
@@ -29,10 +28,8 @@ import { PlayerRepository } from './repositories/player.repository';
         PORT: Joi.number().required(),
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_STATS_QUEUE: Joi.string().required(),
-        RIOT_API_KEY: Joi.string().required(),
       }),
     }),
-    RiotAPIModule,
     RmqModule,
     DatabaseModule,
     MongooseModule.forFeature([
