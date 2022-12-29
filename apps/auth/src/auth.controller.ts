@@ -1,10 +1,20 @@
-import { Controller, Get, NotFoundException, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Query,
+} from '@nestjs/common';
+import { AuthService } from './auth.service';
 
 import { UsersService } from './users/users.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Get('users')
   async getUser(
@@ -17,5 +27,10 @@ export class AuthController {
     }
 
     return user;
+  }
+
+  @Get('users/:summonerName/profile')
+  async getPlayerProfile(@Param('summonerName') summonerName: string) {
+    return this.authService.getPlayerProfile(summonerName);
   }
 }
