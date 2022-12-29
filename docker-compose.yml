@@ -1,18 +1,6 @@
 version: '3.1'
 
 services:
-  bot:
-    build:
-      context: .
-      dockerfile: ./apps/bot/Dockerfile
-      target: development
-    volumes:
-      - ./apps/bot:/usr/src/app
-    env_file:
-      - ./apps/bot/.env
-    networks:
-      - internal-network
-
   auth:
     build:
       context: .
