@@ -18,6 +18,9 @@ export class User extends AbstractDocument {
 
   @Prop({ required: false, default: false })
   verified: boolean;
+
+  @Prop({ default: false })
+  queuing: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

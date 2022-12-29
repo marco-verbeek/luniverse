@@ -6,4 +6,5 @@ export class UserProfileDTO {
   accountId: string;
 
   verified: boolean;
+  queuing: boolean;
 }

@@ -3,8 +3,10 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class QueuesService {
-  @Cron(CronExpression.EVERY_10_MINUTES)
+  // TODO: shared array of users in a game. Allows for easier scalability with multiple microservices.
+
+  @Cron(CronExpression.EVERY_5_MINUTES)
   inQueueHandle() {
-    console.log('check if players are in queue');
+    console.log('what to do with queuing players');
   }
 }
