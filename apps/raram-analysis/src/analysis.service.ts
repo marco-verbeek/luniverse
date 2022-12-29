@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
-import { STATS_QUEUE } from '@luni/common';
+import { fetchUserByPuuid, STATS_QUEUE, UserProfileDTO } from '@luni/common';
 import { RegionGroups, Regions } from 'twisted/dist/constants';
 
 import { DTHAnalysisService } from './dth-analysis.service';
@@ -55,6 +55,15 @@ export class AnalysisService {
       match.response,
     );
 
+    // Set the luniId of each player, if they have a Luni account.
+    for (const player of gameAnalysis.players) {
+      const luniAcc = await fetchUserByPuuid(player.puuid);
+
+      if (luniAcc) {
+        player.luniId = luniAcc.luniId;
+      }
+    }
+
     // Add the analysis to the db
     await this.analysisRepository.create(gameAnalysis);
 
@@ -79,17 +88,10 @@ export class AnalysisService {
     };
   }
 
-  async getPlayerHistory(summonerName: string) {
-    const {
-      response: { puuid },
-    } = await this.summonerV4Service.getSummonerByName(
-      summonerName,
-      Regions.EU_WEST,
-    );
-
+  async getPlayerHistory(user: UserProfileDTO) {
     const history = await this.analysisRepository.find(
       {
-        'players.puuid': puuid,
+        'players.puuid': user.puuid,
       },
       { limit: 10, sort: { _id: -1 } },
     );
@@ -99,11 +101,10 @@ export class AnalysisService {
     }
 
     const formattedHistory = [];
-
     for (const game of history) {
       const { id: winningTeamId } = game.teams.find((team) => team.win);
-      const { teamId: playerTeam } = game.players.find(
-        (player) => player.puuid === puuid,
+      const { teamId: playerTeamId } = game.players.find(
+        (player) => player.summonerName === user.summonerName,
       );
 
       // Format players to only keep certain properties.
@@ -117,7 +118,7 @@ export class AnalysisService {
       }));
 
       formattedHistory.push({
-        win: playerTeam === winningTeamId,
+        win: playerTeamId === winningTeamId,
         players,
       });
     }

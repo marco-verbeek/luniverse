@@ -22,6 +22,9 @@ export class DTHAnalysisService {
         teamId: participant.teamId,
         champion: participant.championName,
 
+        // Will be determined separately.
+        luniId: null,
+
         damageDone: participant.totalDamageDealtToChampions,
         damageTaken: participant.totalDamageTaken,
         healed:

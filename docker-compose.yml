@@ -23,7 +23,6 @@ services:
       - ./apps/auth/.env
     depends_on:
       - mongodb-auth
-      - rabbitmq
     ports:
       - 3001:3001
     volumes:
