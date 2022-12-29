@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { getProfileIconURL } from '@luni/champions';
 import { SummonerV4Service } from '@luni/riot-api';
 import { Regions } from 'twisted/dist/constants';
 
@@ -18,6 +19,7 @@ export class AuthService {
       name: summonerName,
       level: summonerLevel,
       iconId: profileIconId,
+      iconURL: getProfileIconURL(profileIconId),
     };
   }
 }
