@@ -71,15 +71,6 @@
       "compilerOptions": {
         "tsConfigPath": "libs/champions/tsconfig.lib.json"
       }
-    },
-    "auth-v2": {
-      "type": "application",
-      "root": "apps/auth-v2",
-      "entryFile": "main",
-      "sourceRoot": "apps/auth-v2/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/auth-v2/tsconfig.app.json"
-      }
     }
   }
 }
