@@ -97,6 +97,24 @@ services:
     networks:
       - internal-network
 
+  raram-queues:
+    build:
+      context: .
+      dockerfile: ./apps/raram-queues/Dockerfile
+      target: development
+    command: npm run start:dev raram-queues
+    env_file:
+      - ./apps/raram-queues/.env
+    depends_on:
+      - rabbitmq
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal-network
+
 networks:
   internal-network:
     driver: bridge
