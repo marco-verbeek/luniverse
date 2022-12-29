@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
-import { STATS_QUEUE } from '@luni/common';
+import { fetchUserByPuuid, STATS_QUEUE, UserProfileDTO } from '@luni/common';
 import { RegionGroups, Regions } from 'twisted/dist/constants';
 
 import { DTHAnalysisService } from './dth-analysis.service';
@@ -55,6 +55,15 @@ export class AnalysisService {
       match.response,
     );
 
+    // Set the luniId of each player, if they have a Luni account.
+    for (const player of gameAnalysis.players) {
+      const luniAcc = await fetchUserByPuuid(player.puuid);
+
+      if (luniAcc) {
+        player.luniId = luniAcc.luniId;
+      }
+    }
+
     // Add the analysis to the db
     await this.analysisRepository.create(gameAnalysis);
 
@@ -62,5 +71,58 @@ export class AnalysisService {
     await this.statsClient.emit('game_analyzed', gameAnalysis);
 
     return gameAnalysis;
+  }
+
+  async getPlayerProfile(summonerName: string) {
+    const {
+      response: { profileIconId, summonerLevel },
+    } = await this.summonerV4Service.getSummonerByName(
+      summonerName,
+      Regions.EU_WEST,
+    );
+
+    return {
+      name: summonerName,
+      level: summonerLevel,
+      iconId: profileIconId,
+    };
+  }
+
+  async getPlayerHistory(user: UserProfileDTO) {
+    const history = await this.analysisRepository.find(
+      {
+        'players.puuid': user.puuid,
+      },
+      { limit: 10, sort: { _id: -1 } },
+    );
+
+    if (!history) {
+      return [];
+    }
+
+    const formattedHistory = [];
+    for (const game of history) {
+      const { id: winningTeamId } = game.teams.find((team) => team.win);
+      const { teamId: playerTeamId } = game.players.find(
+        (player) => player.summonerName === user.summonerName,
+      );
+
+      // Format players to only keep certain properties.
+      const players = game.players.map((player) => ({
+        championId: player.championId,
+        kills: player.kills,
+        deaths: player.deaths,
+        assists: player.assists,
+        summonerName: player.summonerName,
+        snaxGain: player.poroSnaxGain,
+      }));
+
+      formattedHistory.push({
+        win: playerTeamId === winningTeamId,
+        players,
+      });
+    }
+
+    return formattedHistory;
   }
 }

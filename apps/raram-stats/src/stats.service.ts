@@ -1,6 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { SummonerV4Service } from '@luni/riot-api';
-import { Regions } from 'twisted/dist/constants';
 
 import { GameRepository } from './repositories/game.repository';
 import { PlayedChampionRepository } from './repositories/played-champion.repository';
@@ -14,7 +12,6 @@ export class StatsService {
     private readonly playedChampRepository: PlayedChampionRepository,
     private readonly championRepository: ChampionRepository,
     private readonly playerRepository: PlayerRepository,
-    private readonly summonerV4Service: SummonerV4Service,
   ) {}
 
   async write(data: any) {
@@ -26,15 +23,17 @@ export class StatsService {
     // Write game to db.games in order to not write stats twice.
     await this.gameRepository.create({ gameId: data.gameId });
 
-    // TODO: Only keep the players that have a Luni account.
-    // const players = data.players.filter((player) => !!player.luniId);
-
     const players = data.players;
     const { id: winningTeamId } = data.teams.find((team) => team.win);
 
     // TODO: improve 'promises in for...of'
     for (const player of players) {
-      const gameWon = player.team === winningTeamId;
+      // Only keep the players that have a Luni account.
+      if (!player.luniId) {
+        continue;
+      }
+
+      const gameWon = player.teamId === winningTeamId;
 
       const incrementStats = {
         gamesPlayed: 1,
@@ -103,14 +102,7 @@ export class StatsService {
     }
   }
 
-  async getPlayerStats(summonerName: string) {
-    const {
-      response: { puuid },
-    } = await this.summonerV4Service.getSummonerByName(
-      summonerName,
-      Regions.EU_WEST,
-    );
-
+  async getPlayerStats(puuid: string) {
     const stats = await this.playerRepository.findOne({ puuid });
 
     if (!stats) {
@@ -118,6 +110,34 @@ export class StatsService {
     }
 
     return stats;
+  }
+
+  async getPlayerChampionStats(puuid: string) {
+    const champStats = await this.playedChampRepository.find(
+      { puuid },
+      {
+        limit: 10,
+        sort: { gamesPlayed: 1 },
+        fields: {
+          championId: 1,
+
+          gamesPlayed: 1,
+          gamesWon: 1,
+          poroSnaxWon: 1,
+          poroSnaxLost: 1,
+
+          kills: 1,
+          deaths: 1,
+          assists: 1,
+        },
+      },
+    );
+
+    if (!champStats) {
+      throw new NotFoundException('Player has not yet played a rARAM game');
+    }
+
+    return champStats;
   }
 
   async getChampionStats(championId: string) {

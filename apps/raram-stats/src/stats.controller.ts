@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { FetchUserByName, UserProfileDTO } from '@luni/common';
 
 import { StatsService } from './stats.service';
 
@@ -12,9 +13,14 @@ export class StatsController {
     return this.statsService.write(data);
   }
 
+  @Get('players/:summonerName/champions')
+  async getPlayerChampionStats(@FetchUserByName() user: UserProfileDTO) {
+    return this.statsService.getPlayerChampionStats(user.puuid);
+  }
+
   @Get('players/:summonerName')
-  async getPlayerStats(@Param('summonerName') summonerName: string) {
-    return this.statsService.getPlayerStats(summonerName);
+  async getPlayerStats(@FetchUserByName() user: UserProfileDTO) {
+    return this.statsService.getPlayerStats(user.puuid);
   }
 
   @Get('champions/:championId')

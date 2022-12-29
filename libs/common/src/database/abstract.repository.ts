@@ -1,4 +1,11 @@
-import { FilterQuery, Model, Types, UpdateQuery, SaveOptions } from 'mongoose';
+import {
+  FilterQuery,
+  Model,
+  Types,
+  UpdateQuery,
+  SaveOptions,
+  QueryOptions,
+} from 'mongoose';
 import { AbstractDocument } from './abstract.schema';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
@@ -44,7 +51,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     });
   }
 
-  async find(filterQuery: FilterQuery<TDocument>) {
-    return this.model.find(filterQuery, {}, { lean: true });
+  async find(filterQuery: FilterQuery<TDocument>, options: QueryOptions = {}) {
+    return this.model.find(filterQuery, {}, { lean: true, ...options });
   }
 }

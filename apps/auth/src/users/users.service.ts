@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { LolAccount } from './schemas/lol-account.schema';
 
 import { User } from './schemas/user.schema';
 import { UsersRepository } from './users.repository';
@@ -8,40 +7,13 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async findByDiscordId(discordId: string): Promise<User> {
-    return this.usersRepository.findOne({ discordId });
-  }
+  async getUser(filter: Partial<User>) {
+    // Filter out the pairs where the value is null or undefined
+    const query = Object.entries(filter).filter(([, value]) => value != null);
 
-  async findVerifiedBySummonerName(summonerName: string): Promise<User> {
-    return this.usersRepository.findOne({ summonerName, verified: true });
-  }
+    // Convert the array of pairs back into an object
+    const queryObject = Object.fromEntries(query);
 
-  async create(discordId: string, summonerName: string): Promise<User> {
-    return this.usersRepository.create({
-      discordId,
-      summonerName,
-      verified: false,
-      leagueAccount: null,
-    });
-  }
-
-  async updateSummonerName(
-    discordId: string,
-    summonerName: string,
-  ): Promise<User> {
-    return this.usersRepository.findOneAndUpdate(
-      { discordId },
-      { $set: { summonerName } },
-    );
-  }
-
-  async confirmAccountVerification(
-    discordId: string,
-    leagueAccount: LolAccount,
-  ): Promise<User> {
-    return this.usersRepository.findOneAndUpdate(
-      { discordId },
-      { $set: { verified: true, leagueAccount } },
-    );
+    return this.usersRepository.findOne(queryObject);
   }
 }
