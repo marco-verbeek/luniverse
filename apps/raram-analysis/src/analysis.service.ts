@@ -73,21 +73,6 @@ export class AnalysisService {
     return gameAnalysis;
   }
 
-  async getPlayerProfile(summonerName: string) {
-    const {
-      response: { profileIconId, summonerLevel },
-    } = await this.summonerV4Service.getSummonerByName(
-      summonerName,
-      Regions.EU_WEST,
-    );
-
-    return {
-      name: summonerName,
-      level: summonerLevel,
-      iconId: profileIconId,
-    };
-  }
-
   async getPlayerHistory(user: UserProfileDTO) {
     const history = await this.analysisRepository.find(
       {
@@ -119,6 +104,8 @@ export class AnalysisService {
 
       formattedHistory.push({
         win: playerTeamId === winningTeamId,
+        gameCreation: game.gameCreation,
+        gameDuration: game.gameDuration,
         players,
       });
     }
