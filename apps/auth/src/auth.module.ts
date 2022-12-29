@@ -6,6 +6,7 @@ import * as Joi from 'joi';
 
 import { UsersModule } from './users/users.module';
 import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 
 @Module({
   imports: [
@@ -23,6 +24,6 @@ import { AuthController } from './auth.controller';
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [],
+  providers: [AuthService],
 })
 export class AuthModule {}
