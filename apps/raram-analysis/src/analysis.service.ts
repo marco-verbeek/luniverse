@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
 import { fetchUserByPuuid, STATS_QUEUE, UserProfileDTO } from '@luni/common';
+import { getChampionIconURL } from '@luni/champions';
 import { RegionGroups, Regions } from 'twisted/dist/constants';
 
 import { DTHAnalysisService } from './dth-analysis.service';
@@ -95,9 +96,13 @@ export class AnalysisService {
       // Format players to only keep certain properties.
       const players = game.players.map((player) => ({
         championId: player.championId,
+        championIconURL: getChampionIconURL(player.championId),
+        championLevel: player.champLevel,
+
         kills: player.kills,
         deaths: player.deaths,
         assists: player.assists,
+
         summonerName: player.summonerName,
         snaxGain: player.poroSnaxGain,
       }));
