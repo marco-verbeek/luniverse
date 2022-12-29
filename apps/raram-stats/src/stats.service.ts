@@ -30,7 +30,6 @@ export class StatsService {
     for (const player of players) {
       // Only keep the players that have a Luni account.
       if (!player.luniId) {
-        console.log('user does not have luni acc', player.summonerName);
         continue;
       }
 
