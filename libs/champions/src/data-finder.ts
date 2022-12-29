@@ -2,6 +2,11 @@ import ddragon from './data/ddragon.json';
 
 import { Champion } from './interfaces/champion';
 
+// TODO: move to appropriate lib
+export const getProfileIconURL = (iconId: number): string => {
+  return `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${iconId}.jpg`;
+};
+
 export const getChampionIconURL = (championId: number): string => {
   return `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${championId}.png`;
 };
