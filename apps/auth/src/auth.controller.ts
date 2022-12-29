@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Query } from '@nestjs/common';
 
 import { UsersService } from './users/users.service';
 
@@ -11,13 +11,11 @@ export class AuthController {
     @Query('summonerName') summonerName: string,
     @Query('puuid') puuid: string,
   ) {
-    // TODO: fix return null
-    if (summonerName) {
-      return this.usersService.getUserBySummonerName(summonerName);
-    } else if (puuid) {
-      return this.usersService.getUserByPuuid(puuid);
+    const user = await this.usersService.getUser({ summonerName, puuid });
+    if (!user) {
+      throw new NotFoundException('User does not have a Luni account');
     }
 
-    return null;
+    return user;
   }
 }
