@@ -16,4 +16,8 @@ export class UsersService {
 
     return this.usersRepository.findOne(queryObject);
   }
+
+  async getQueuingUsers() {
+    return this.usersRepository.find({ queuing: true });
+  }
 }
