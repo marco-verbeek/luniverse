@@ -26,4 +26,8 @@ export class SummonerV4Service {
   ): Promise<ApiResponseDTO<SummonerV4DTO>> {
     return this.RiotAPI.Summoner.getByName(name, region);
   }
+
+  getActiveGame(accountId: string, region: Regions) {
+    return this.RiotAPI.Spectator.activeGame(accountId, region);
+  }
 }

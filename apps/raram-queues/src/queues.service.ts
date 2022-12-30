@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { SummonerV4Service } from '@luni/riot-api';
 
 @Injectable()
 export class QueuesService {
+  constructor(private readonly summonerV4Service: SummonerV4Service) {}
+
   // TODO: shared array of users in a game. Allows for easier scalability with multiple microservices?
   // TODO: or even better, rework this when needed. We might not have to scale this if we keep it between friends!
 
