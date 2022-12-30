@@ -1,0 +1,85 @@
+.match {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 24px;
+  border-radius: 5px;
+  background-color: rgba(104, 204, 144, 0.5);
+
+  &.defeat {
+    background-color: rgba(171, 95, 84, 0.5);
+  }
+
+  .timestamp {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    h5,
+    h6 {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .result {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid #596680;
+      padding-top: 4px;
+    }
+  }
+
+  .champion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .icon {
+      display: flex;
+      flex-direction: column;
+      margin-top: 15px;
+
+      img {
+        width: 42px;
+        height: 42px;
+      }
+
+      .level {
+        position: relative;
+        top: -15px;
+        left: 25px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background-color: rgba(58, 79, 122, 0.6);
+        width: fit-content;
+        padding: 4px;
+        border-radius: 50px;
+      }
+    }
+  }
+
+  .snax {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .otherPlayers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 4px;
+
+    .player {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

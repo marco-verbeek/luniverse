@@ -1,0 +1,16 @@
+<div class="champion">
+  <div class="championDetails">
+    <img [src]="topChampion.iconUrl">
+    <h6 class="name">{{ topChampion.name }}</h6>
+  </div>
+  <div class="kda">
+    <h5>{{ (topChampion.kills + topChampion.assists) / topChampion.deaths | number:'1.0-2'}} KDA</h5>
+    <h6>{{ topChampion.kills / topChampion.games | number:'1.0-2' }} / {{ topChampion.deaths / topChampion.games | number:'1.0-2' }} / {{ topChampion.assists / topChampion.games | number:'1.0-2' }}
+    </h6>
+  </div>
+
+  <div class="gameStats">
+    <h5>{{ topChampion.gamesWon / topChampion.games | percent }}</h5>
+    <h6>{{ topChampion.games }} played</h6>
+  </div>
+</div>

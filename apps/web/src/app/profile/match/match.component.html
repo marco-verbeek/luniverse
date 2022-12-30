@@ -1,0 +1,33 @@
+<div class="match" [class.defeat]="!match.win">
+  <div class="timestamp">
+    <h5>A day ago</h5>
+    <div class="result">
+      <h6>{{ match.win ? 'Victory' : 'Defeat' }}</h6>
+      <h6>19m 12s</h6>
+    </div>
+  </div>
+
+  <div class="champion">
+    <div class="icon">
+      <img [src]="currentPlayerDetails.iconUrl">
+      <p class="level">17</p>
+    </div>
+
+    <div class="kda">
+      <h5>{{ currentPlayerDetails.kills }} / {{ currentPlayerDetails.deaths }} / {{ currentPlayerDetails.assists }}</h5>
+      <h6>{{ (currentPlayerDetails.kills + currentPlayerDetails.assists) / currentPlayerDetails.deaths | number:'1.0-2'}} KDA</h6>
+    </div>
+  </div>
+
+  <div class="snax">
+    <img src="../../../assets/images/poro-snax.png">
+    <h4>{{ currentPlayerDetails.snaxGain }}</h4>
+  </div>
+
+  <div class="otherPlayers">
+    <div class="player" *ngFor="let player of match.players">
+      <img [src]="player.iconUrl">
+      <p>{{ player.summonerName }}</p>
+    </div>
+  </div>
+</div>

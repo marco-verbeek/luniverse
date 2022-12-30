@@ -2,7 +2,7 @@ import { MatchHistory } from './matchHistory';
 import { TopChampion } from './topChampion';
 
 export interface SummonerProfile {
-  iconId: number
+  iconUrl: string,
   summonerName: string,
   level: number,
   snax: number,

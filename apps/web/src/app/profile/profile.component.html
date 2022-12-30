@@ -23,7 +23,28 @@
       </div>
     </div>
     <div class="bottom">
+      <div class="topPlayedChampions">
+        <div class="title">
+          <h5>Top Played Champions</h5>
+        </div>
 
+        <div class="champions">
+          <div class="champion" *ngFor="let champion of summoner.topChampions">
+            <app-champion [topChampion]="champion"></app-champion>
+          </div>
+        </div>
+      </div>
+      <div class="matchHistory">
+        <div class="title">
+          <h5>Match History</h5>
+        </div>
+
+        <div class="matches">
+          <div class="match" *ngFor="let match of summoner.matchHistory">
+            <app-match [summonerName]="summoner.summonerName" [match]="match"></app-match>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -20,6 +20,5 @@ export class ProfileComponent implements OnInit {
 
   async loadData() {
     this.summoner = this.profileService.getSummonerData();
-    // TODO: Fetch summoner icon
   }
 }
