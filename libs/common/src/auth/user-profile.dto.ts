@@ -4,6 +4,7 @@ export class UserProfileDTO {
 
   puuid: string;
   accountId: string;
+  summonerId: string;
 
   verified: boolean;
   queuing: boolean;

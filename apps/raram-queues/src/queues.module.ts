@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RiotAPIModule } from '@luni/riot-api';
 import * as Joi from 'joi';
+import { QueuesService } from './queues.service';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import * as Joi from 'joi';
     ScheduleModule.forRoot(),
   ],
   controllers: [],
-  providers: [],
+  providers: [QueuesService],
 })
 export class QueuesModule {}

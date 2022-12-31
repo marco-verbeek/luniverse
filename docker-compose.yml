@@ -106,9 +106,10 @@ services:
     env_file:
       - ./apps/raram-queues/.env
     depends_on:
+      - auth
       - rabbitmq
     ports:
-      - 3000:3000
+      - 3003:3003
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules

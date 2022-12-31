@@ -16,6 +16,9 @@ export class User extends AbstractDocument {
   @Prop()
   accountId: string;
 
+  @Prop()
+  summonerId: string;
+
   @Prop({ required: false, default: false })
   verified: boolean;
 
