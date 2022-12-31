@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { UserProfileDTO } from '@luni/common';
 import { SummonerV4Service } from '@luni/riot-api';
@@ -7,8 +7,6 @@ import { GameModes, Regions } from 'twisted/dist/constants';
 @Injectable()
 export class QueuesService {
   constructor(private readonly summonerV4Service: SummonerV4Service) {}
-
-  private readonly logger = new Logger(QueuesService.name);
 
   // Map of Players that are in an active game with their puuid as key.
   // Note: A shared array between microservices would probably allow for easier scalability.
@@ -45,9 +43,12 @@ export class QueuesService {
         continue;
       }
 
-      // TODO: start analysis
-      this.logger.log(
-        `Player ${player.summonerName} has finished their ARAM game!`,
+      // Note: can be replaced with a queue message that can be subscribed to by interested services.
+      await fetch(
+        `http://analysis:3000/analysis/${player.summonerName}/latest`,
+        {
+          method: 'POST',
+        },
       );
     }
   }
@@ -63,7 +64,6 @@ export class QueuesService {
     return users as UserProfileDTO[];
   }
 
-  // TODO: refactor to return active game data, use gameId in analysis-by-id?
   private async isPlayerInActiveARAMGame(summonerId: string): Promise<boolean> {
     try {
       const activeGame = await this.summonerV4Service.getActiveGame(
