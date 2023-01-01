@@ -27,7 +27,12 @@ export class SummonerV4Service {
     return this.RiotAPI.Summoner.getByName(name, region);
   }
 
-  getActiveGame(summonerId: string, region: Regions) {
-    return this.RiotAPI.Spectator.activeGame(summonerId, region);
+  async getActiveGame(summonerId: string, region: Regions) {
+    try {
+      return await this.RiotAPI.Spectator.activeGame(summonerId, region);
+    } catch (err) {
+      // Note: getActiveGame throws a 404 if player not in active game.
+      return null;
+    }
   }
 }

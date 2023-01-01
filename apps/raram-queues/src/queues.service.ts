@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { UserProfileDTO } from '@luni/common';
 import { SummonerV4Service } from '@luni/riot-api';
-import { GameModes, Regions } from 'twisted/dist/constants';
+import { GameModes, GameTypes, Regions } from 'twisted/dist/constants';
 
 @Injectable()
 export class QueuesService {
@@ -43,12 +43,20 @@ export class QueuesService {
         continue;
       }
 
+      this.IN_GAME.delete(player.puuid);
+
       // Note: can be replaced with a queue message that can be subscribed to by interested services.
-      await fetch(
+      const analysis = await fetch(
         `http://analysis:3000/analysis/${player.summonerName}/latest`,
         {
           method: 'POST',
         },
+      );
+
+      console.log(
+        `Player ${player.summonerName} finished game. Analysis: `,
+        analysis,
+        await analysis.json(),
       );
     }
   }
@@ -65,18 +73,18 @@ export class QueuesService {
   }
 
   private async isPlayerInActiveARAMGame(summonerId: string): Promise<boolean> {
-    try {
-      const activeGame = await this.summonerV4Service.getActiveGame(
-        summonerId,
-        Regions.EU_WEST,
-      );
+    const activeGame = await this.summonerV4Service.getActiveGame(
+      summonerId,
+      Regions.EU_WEST,
+    );
 
-      // Note: weirdly, 'instanceof APIResponse' is not working here.
-      if (activeGame.hasOwnProperty('response')) {
-        return activeGame['response'].gameMode === GameModes.ARAM;
-      }
-    } catch (err) {
-      // Note: getActiveGame throws a 404 if player not in active game.
+    // Note: weirdly, 'instanceof APIResponse' is not working here.
+    if (activeGame && activeGame.hasOwnProperty('response')) {
+      const isARAM = activeGame['response'].gameMode === GameModes.ARAM;
+      const isMatchedGame =
+        activeGame['response'].gameType === GameTypes.MATCHED_GAME;
+
+      return isARAM && isMatchedGame;
     }
 
     return false;

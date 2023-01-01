@@ -2,7 +2,12 @@ import { ImATeapotException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
 import { fetchUserByPuuid, STATS_QUEUE, UserProfileDTO } from '@luni/common';
-import { GameModes, RegionGroups, Regions } from 'twisted/dist/constants';
+import {
+  GameModes,
+  GameTypes,
+  RegionGroups,
+  Regions,
+} from 'twisted/dist/constants';
 
 import { DTHAnalysisService } from './dth-analysis.service';
 import { AnalysisRepository } from './analysis.repository';
@@ -33,8 +38,11 @@ export class AnalysisService {
       RegionGroups.EUROPE,
     );
 
-    if (match.response.info.gameMode !== GameModes.ARAM) {
-      throw new ImATeapotException('Can only analyze ARAM games');
+    if (
+      match.response.info.gameMode !== GameModes.ARAM ||
+      match.response.info.gameType !== GameTypes.MATCHED_GAME
+    ) {
+      throw new ImATeapotException('Can only analyze Matched ARAM games');
     }
 
     // Apply DTH Analysis on official data
