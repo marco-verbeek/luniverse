@@ -45,18 +45,12 @@ export class QueuesService {
 
       this.IN_GAME.delete(player.puuid);
 
-      // Note: can be replaced with a queue message that can be subscribed to by interested services.
-      const analysis = await fetch(
+      // Note: can be replaced with a queue message, subscribed to by interested services.
+      await fetch(
         `http://analysis:3000/analysis/${player.summonerName}/latest`,
         {
           method: 'POST',
         },
-      );
-
-      console.log(
-        `Player ${player.summonerName} finished game. Analysis: `,
-        analysis,
-        await analysis.json(),
       );
     }
   }
