@@ -1,9 +1,14 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ImATeapotException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
 import { fetchUserByPuuid, STATS_QUEUE, UserProfileDTO } from '@luni/common';
 import { getChampionIconURL } from '@luni/champions';
-import { RegionGroups, Regions } from 'twisted/dist/constants';
+import {
+  GameModes,
+  GameTypes,
+  RegionGroups,
+  Regions,
+} from 'twisted/dist/constants';
 
 import { DTHAnalysisService } from './dth-analysis.service';
 import { AnalysisRepository } from './analysis.repository';
@@ -18,27 +23,10 @@ export class AnalysisService {
     private readonly analysisRepository: AnalysisRepository,
   ) {}
 
-  async lastGame(summonerName: string) {
-    // Fetch the Riot Profile associated with the summoner name.
-    const {
-      response: { puuid },
-    } = await this.summonerV4Service.getSummonerByName(
-      summonerName,
-      Regions.EU_WEST,
-    );
-
-    // Fetch the user's last ARAM game
-    const userLastGame = await this.matchV5Service.listMatches(
-      puuid,
-      RegionGroups.EUROPE,
-      { queue: 450, count: 1 },
-    );
-
-    const lastGameId = userLastGame.response[0];
-
+  async analyzeGameById(gameId: string) {
     // See if the game has already been analyzed in the past
     const alreadyAnalyzed = await this.analysisRepository.findOne({
-      gameId: lastGameId,
+      gameId,
     });
 
     if (alreadyAnalyzed) {
@@ -47,9 +35,16 @@ export class AnalysisService {
 
     // Fetch official match data
     const match = await this.matchV5Service.getMatchById(
-      lastGameId,
+      gameId,
       RegionGroups.EUROPE,
     );
+
+    if (
+      match.response.info.gameMode !== GameModes.ARAM ||
+      match.response.info.gameType !== GameTypes.MATCHED_GAME
+    ) {
+      throw new ImATeapotException('Can only analyze Matched ARAM games');
+    }
 
     // Apply DTH Analysis on official data
     const gameAnalysis = this.dthAnalysisService.performMatchAnalysis(
@@ -69,9 +64,29 @@ export class AnalysisService {
     await this.analysisRepository.create(gameAnalysis);
 
     // Emit event for raram-stats to process
-    await this.statsClient.emit('game_analyzed', gameAnalysis);
+    this.statsClient.emit('game_analyzed', gameAnalysis);
 
     return gameAnalysis;
+  }
+
+  async lastGame(summonerName: string) {
+    // Fetch the Riot Profile associated with the summoner name.
+    const {
+      response: { puuid },
+    } = await this.summonerV4Service.getSummonerByName(
+      summonerName,
+      Regions.EU_WEST,
+    );
+
+    // Fetch the user's last ARAM game
+    const userLastGame = await this.matchV5Service.listMatches(
+      puuid,
+      RegionGroups.EUROPE,
+      { queue: 450, count: 1 },
+    );
+
+    const lastGameId = userLastGame.response[0];
+    return this.analyzeGameById(lastGameId);
   }
 
   async getPlayerHistory(user: UserProfileDTO) {

@@ -33,4 +33,9 @@ export class AuthController {
   async getPlayerProfile(@Param('summonerName') summonerName: string) {
     return this.authService.getPlayerProfile(summonerName);
   }
+
+  @Get('users/queuing')
+  async getQueuingUsers() {
+    return this.usersService.getQueuingUsers();
+  }
 }

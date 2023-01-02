@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { FetchUserByName, UserProfileDTO } from '@luni/common';
 
 import { AnalysisService } from './analysis.service';
@@ -7,7 +7,12 @@ import { AnalysisService } from './analysis.service';
 export class AnalysisController {
   constructor(private readonly analysisService: AnalysisService) {}
 
-  @Get(':summonerName/latest')
+  @Post(':gameId')
+  async analyzeGameById(@Param('gameId') gameId: string) {
+    return this.analysisService.analyzeGameById(gameId);
+  }
+
+  @Post(':summonerName/latest')
   async getLastGameAnalysis(@Param('summonerName') summonerName: string) {
     return this.analysisService.lastGame(summonerName);
   }
