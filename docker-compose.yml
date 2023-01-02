@@ -116,6 +116,19 @@ services:
     networks:
       - internal-network
 
+  gateway:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - auth
+    #   - raram-analysis
+    #   - raram-stats
+    networks:
+      - internal-network
+
 networks:
   internal-network:
     driver: bridge
