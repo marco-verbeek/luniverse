@@ -67,19 +67,38 @@
   }
 
   .otherPlayers {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 4px;
+    display: flex;
+    gap: 8px;
 
-    .player {
+    .teamOne,
+    .teamTwo {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 4px;
-    }
 
-    img {
-      width: 24px;
-      height: 24px;
+      .player {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
+
+        .details {
+          display: flex;
+          gap: 4px;
+
+          .victory {
+            color: rgb(180, 226, 197);
+
+            &.not {
+              color: rgb(226, 187, 180);
+            }
+          }
+        }
+      }
     }
   }
 }

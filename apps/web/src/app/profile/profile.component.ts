@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async loadData() {
+    // fetch sum name
     this.summoner = this.profileService.getSummonerData();
   }
 }

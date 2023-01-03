@@ -10,7 +10,10 @@ import { MatchHistory } from '../../interfaces/matchHistory';
 export class MatchComponent implements OnInit {
   @Input() summonerName!: string;
   @Input() match!: MatchHistory;
+
   currentPlayerDetails!: Player;
+  teamOne: Player[] = [];
+  teamTwo: Player[] = [];
 
   constructor() { }
 
@@ -22,5 +25,7 @@ export class MatchComponent implements OnInit {
     }
 
     this.currentPlayerDetails = matchDetail;
+    this.teamOne = this.match.players.slice(0, 5);
+    this.teamTwo = this.match.players.slice(5, 10);
   }
 }

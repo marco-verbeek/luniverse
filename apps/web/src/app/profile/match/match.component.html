@@ -25,9 +25,24 @@
   </div>
 
   <div class="otherPlayers">
-    <div class="player" *ngFor="let player of match.players">
-      <img [src]="player.iconUrl">
-      <p>{{ player.summonerName }}</p>
+    <div class="teamOne">
+      <div class="player" *ngFor="let player of teamOne">
+        <img [src]="player.iconUrl">
+        <div class="details">
+          <p>{{ player.summonerName }}</p>
+          <p class="victory" [class.not]="player.snaxGain.toString().includes('-')">{{ player.snaxGain }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="teamTwo">
+      <div class="player" *ngFor="let player of teamTwo">
+        <img [src]="player.iconUrl">
+        <div class="details">
+          <p>{{ player.summonerName }}</p>
+          <p class="victory" [class.not]="player.snaxGain.toString().includes('-')">{{ player.snaxGain }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
