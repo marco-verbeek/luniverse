@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AbstractDocument } from '@luni/common';
-import { ObjectId } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Schema({ versionKey: false, _id: false })
 export class User extends AbstractDocument {
   @Prop({ index: true })
-  luniId: ObjectId;
+  luniId: Types.ObjectId;
 
   @Prop({ index: true })
   summonerName: string;
