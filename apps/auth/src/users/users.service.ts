@@ -47,7 +47,7 @@ export class UsersService {
     );
 
     // Create the user account
-    await this.usersRepository.create({
+    return await this.usersRepository.create({
       luniId: new Types.ObjectId(),
       summonerName,
       accountId,
