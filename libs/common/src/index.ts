@@ -9,3 +9,5 @@ export * from './rmq/constants/queues';
 export * from './auth/fetch-user.decorator';
 export * from './auth/fetch-user.helper';
 export * from './auth/user-profile.dto';
+
+export * from './logger/logging.module';
