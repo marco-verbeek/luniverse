@@ -1,12 +1,15 @@
 import {
+  Body,
   Controller,
   Get,
   NotFoundException,
   Param,
+  Post,
   Query,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
 
+import { RegisterUserDTO } from './dtos/register-user.dto';
+import { AuthService } from './auth.service';
 import { UsersService } from './users/users.service';
 
 @Controller('auth')
@@ -37,5 +40,10 @@ export class AuthController {
   @Get('users/queuing')
   async getQueuingUsers() {
     return this.usersService.getQueuingUsers();
+  }
+
+  @Post('register')
+  async registerUser(@Body() data: RegisterUserDTO) {
+    return this.usersService.register(data.summonerName);
   }
 }
