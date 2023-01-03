@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule } from '@luni/common';
+import { DatabaseModule, LoggingModule } from '@luni/common';
 import { RiotAPIModule } from '@luni/riot-api';
 import * as Joi from 'joi';
 
@@ -19,6 +19,7 @@ import { AuthService } from './auth.service';
         RIOT_API_KEY: Joi.string().required(),
       }),
     }),
+    LoggingModule,
     DatabaseModule,
     RiotAPIModule,
     UsersModule,
