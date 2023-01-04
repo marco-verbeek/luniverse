@@ -40,7 +40,7 @@ export class UsersService {
 
     // Fetch the user's Riot data
     const {
-      response: { accountId, id: summonerId, puuid },
+      response: { accountId, id: summonerId, puuid, name: riotSummonerName },
     } = await this.summonerV4Service.getSummonerByName(
       summonerName,
       Regions.EU_WEST,
@@ -49,7 +49,7 @@ export class UsersService {
     // Create the user account
     return await this.usersRepository.create({
       luniId: new Types.ObjectId(),
-      summonerName,
+      summonerName: riotSummonerName,
       accountId,
       puuid,
       summonerId,
