@@ -6,7 +6,10 @@ import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { AuthModule } from './auth.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AuthModule, { bufferLogs: true });
+  const app = await NestFactory.create(AuthModule, {
+    bufferLogs: true,
+    cors: true,
+  });
 
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());

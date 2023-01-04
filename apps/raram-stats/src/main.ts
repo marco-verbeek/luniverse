@@ -8,7 +8,10 @@ import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { StatsModule } from './stats.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(StatsModule, { bufferLogs: true });
+  const app = await NestFactory.create(StatsModule, {
+    bufferLogs: true,
+    cors: true,
+  });
 
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
