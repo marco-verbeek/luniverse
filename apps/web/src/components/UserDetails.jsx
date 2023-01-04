@@ -1,8 +1,22 @@
 import { Avatar, Stack, Typography } from '@mui/material';
+import { useQuery } from 'react-query';
 import PoroSnax from '../assets/images/poro-snax.png';
 import './UserDetails.css';
 
-function UserDetails() {
+function UserDetails({ summonerName }) {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['profile'],
+    queryFn: () =>
+      fetch(`http://localhost:80/auth/users/${summonerName}/profile`).then(
+        (res) => res.json(),
+      ),
+    keepPreviousData: true,
+  });
+
+  if (isLoading || error) {
+    return <></>;
+  }
+
   return (
     <div className="userDetails">
       <Stack
@@ -13,14 +27,14 @@ function UserDetails() {
         borderRadius="5px"
         width="fit-content"
       >
-        <Avatar
-          sx={{ width: 96, height: 96 }}
-          src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/3873.jpg"
-        />
+        <Avatar sx={{ width: 96, height: 96 }} src={data.iconURL} />
         <Stack direction="column" spacing={1}>
-          <Typography variant="h4">ItsNexty</Typography>
+          <Typography variant="h4">{data.name}</Typography>
           <Stack direction="row" spacing={1} alignItems="center">
-            <Avatar src={PoroSnax} />
+            <div className="avatar">
+              <Avatar src={PoroSnax} />
+              {/* TODO: data.level */}
+            </div>
             <Typography variant="h5">130 Snax</Typography>
           </Stack>
         </Stack>
