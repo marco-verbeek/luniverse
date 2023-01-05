@@ -27,14 +27,24 @@ function UserDetails({ summonerName }) {
         borderRadius="5px"
         width="fit-content"
       >
-        <Avatar sx={{ width: 96, height: 96 }} src={data.iconURL} />
+        <Stack direction="column">
+          <Avatar sx={{ width: 96, height: 96 }} src={data.iconURL} />
+          <div className="level">
+            <Typography
+              variant="body1"
+              bgcolor="rgba(58, 79, 122, 0.6)"
+              padding="4px 8px"
+              borderRadius="5px"
+              width="fit-content"
+            >
+              {data.level}
+            </Typography>
+          </div>
+        </Stack>
         <Stack direction="column" spacing={1}>
           <Typography variant="h4">{data.name}</Typography>
           <Stack direction="row" spacing={1} alignItems="center">
-            <div className="avatar">
-              <Avatar src={PoroSnax} />
-              {/* TODO: data.level */}
-            </div>
+            <Avatar src={PoroSnax} />
             <Typography variant="h5">130 Snax</Typography>
           </Stack>
         </Stack>

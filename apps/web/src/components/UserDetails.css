@@ -2,3 +2,11 @@
   padding: 24px;
   padding-top: 0;
 }
+
+.level {
+  display: flex;
+  justify-content: center;
+  width: inherit;
+  position: relative;
+  top: -20px;
+}
