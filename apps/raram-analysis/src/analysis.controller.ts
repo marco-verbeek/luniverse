@@ -7,17 +7,17 @@ import { AnalysisService } from './analysis.service';
 export class AnalysisController {
   constructor(private readonly analysisService: AnalysisService) {}
 
-  @Post(':gameId')
+  @Post('games/:gameId')
   async analyzeGameById(@Param('gameId') gameId: string) {
     return this.analysisService.analyzeGameById(gameId);
   }
 
-  @Post(':summonerName/latest')
+  @Post('players/:summonerName/latest')
   async getLastGameAnalysis(@Param('summonerName') summonerName: string) {
     return this.analysisService.lastGame(summonerName);
   }
 
-  @Get(':summonerName/history')
+  @Get('players/:summonerName/history')
   async getPlayerHistory(@FetchUserByName() user: UserProfileDTO) {
     return this.analysisService.getPlayerHistory(user);
   }
