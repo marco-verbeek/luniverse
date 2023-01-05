@@ -15,11 +15,22 @@ export class AuthService {
       Regions.EU_WEST,
     );
 
+    let poroSnax = 0;
+    const statsReq = await fetch(
+      `http://raram-stats:3002/stats/players/${riotSummonerName}`,
+    );
+
+    if (statsReq.status === 200) {
+      const { poroSnaxWon, poroSnaxLost } = await statsReq.json();
+      poroSnax = poroSnaxWon - poroSnaxLost;
+    }
+
     return {
       name: riotSummonerName,
       level: summonerLevel,
       iconId: profileIconId,
       iconURL: getProfileIconURL(profileIconId),
+      poroSnax,
     };
   }
 }
