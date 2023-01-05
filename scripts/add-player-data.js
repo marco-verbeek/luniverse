@@ -17,12 +17,6 @@ const GAME_IDS = [
 ];
 
 (async () => {
-  // Register the user
-  await fetch(`${BASE_URL}/auth/users/register`, {
-    method: 'POST',
-    body: JSON.stringify({ summonerName: PLAYER_NAME }),
-  });
-
   const analysisRequests = [];
 
   // Analyze the ARAM games by their ID.

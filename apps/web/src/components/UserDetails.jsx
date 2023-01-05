@@ -26,6 +26,7 @@ function UserDetails({ summonerName }) {
         padding="24px"
         borderRadius="5px"
         width="fit-content"
+        height="100px"
       >
         <Stack direction="column">
           <Avatar sx={{ width: 96, height: 96 }} src={data.iconURL} />
