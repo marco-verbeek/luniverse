@@ -42,7 +42,7 @@ export class AuthController {
     return this.usersService.getQueuingUsers();
   }
 
-  @Post('register')
+  @Post('users/register')
   async registerUser(@Body() data: RegisterUserDTO) {
     return this.usersService.register(data.summonerName);
   }
