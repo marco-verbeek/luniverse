@@ -9,14 +9,14 @@ export class AuthService {
 
   async getPlayerProfile(summonerName: string) {
     const {
-      response: { profileIconId, summonerLevel },
+      response: { profileIconId, summonerLevel, name: riotSummonerName },
     } = await this.summonerV4Service.getSummonerByName(
       summonerName,
       Regions.EU_WEST,
     );
 
     return {
-      name: summonerName,
+      name: riotSummonerName,
       level: summonerLevel,
       iconId: profileIconId,
       iconURL: getProfileIconURL(profileIconId),
