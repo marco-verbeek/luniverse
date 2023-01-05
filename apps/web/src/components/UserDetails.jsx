@@ -45,7 +45,7 @@ function UserDetails({ summonerName }) {
           <Typography variant="h4">{data.name}</Typography>
           <Stack direction="row" spacing={1} alignItems="center">
             <Avatar src={PoroSnax} />
-            <Typography variant="h5">130 Snax</Typography>
+            <Typography variant="h5">{data.poroSnax} Snax</Typography>
           </Stack>
         </Stack>
       </Stack>
