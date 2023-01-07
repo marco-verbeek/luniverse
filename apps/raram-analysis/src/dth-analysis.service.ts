@@ -21,6 +21,7 @@ export class DTHAnalysisService {
         puuid: participant.puuid,
         teamId: participant.teamId,
         champion: participant.championName,
+        championLevel: participant.champLevel,
 
         // Will be determined separately.
         luniId: null,
