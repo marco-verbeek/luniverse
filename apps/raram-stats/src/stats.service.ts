@@ -62,7 +62,7 @@ export class StatsService {
         spell3Casts: player.spell3Casts,
         spell4Casts: player.spell4Casts,
 
-        champLevel: player.champLevel,
+        championLevel: player.championLevel,
         timePlayed: player.timePlayed,
         timeCCingOthers: player.timeCCingOthers,
         totalTimeSpentDead: player.totalTimeSpentDead,

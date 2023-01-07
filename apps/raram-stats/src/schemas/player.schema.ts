@@ -57,7 +57,7 @@ export class Player extends AbstractDocument {
   spell4Casts: number;
 
   @Prop()
-  champLevel: number;
+  championLevel: number;
   @Prop()
   timePlayed: number;
   @Prop()
