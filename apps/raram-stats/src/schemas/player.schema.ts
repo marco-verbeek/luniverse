@@ -1,7 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AbstractDocument } from '@luni/common';
 
-@Schema({ versionKey: false, _id: false })
+@Schema({
+  versionKey: false,
+  _id: false,
+})
 export class Player extends AbstractDocument {
   @Prop({ index: true })
   puuid: string;
@@ -83,3 +86,7 @@ export class Player extends AbstractDocument {
 }
 
 export const PlayerSchema = SchemaFactory.createForClass(Player);
+
+PlayerSchema.virtual('poroSnax').get(function (this: Player) {
+  return Math.ceil((this.poroSnaxWon - this.poroSnaxLost) * 1e2) / 1e2;
+});

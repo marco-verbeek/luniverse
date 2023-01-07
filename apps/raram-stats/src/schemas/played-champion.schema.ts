@@ -76,3 +76,7 @@ export class PlayedChampion extends AbstractDocument {
 
 export const PlayedChampionSchema =
   SchemaFactory.createForClass(PlayedChampion);
+
+PlayedChampionSchema.virtual('poroSnax').get(function (this: PlayedChampion) {
+  return Math.ceil((this.poroSnaxWon - this.poroSnaxLost) * 1e2) / 1e2;
+});

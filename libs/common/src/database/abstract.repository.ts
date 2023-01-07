@@ -25,7 +25,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   }
 
   async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
-    return this.model.findOne(filterQuery, {}, { lean: true });
+    return this.model.findOne(filterQuery, {}, { lean: { virtuals: true } });
   }
 
   async findOneAndUpdate(
@@ -34,7 +34,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     upsert = false,
   ) {
     return this.model.findOneAndUpdate(filterQuery, update, {
-      lean: true,
+      lean: { virtuals: true },
       upsert,
       new: true,
     });
@@ -45,13 +45,17 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     document: Partial<TDocument>,
   ) {
     return this.model.findOneAndUpdate(filterQuery, document, {
-      lean: true,
+      lean: { virtuals: true },
       upsert: true,
       new: true,
     });
   }
 
   async find(filterQuery: FilterQuery<TDocument>, options: QueryOptions = {}) {
-    return this.model.find(filterQuery, {}, { lean: true, ...options });
+    return this.model.find(
+      filterQuery,
+      {},
+      { lean: { virtuals: true }, ...options },
+    );
   }
 }
