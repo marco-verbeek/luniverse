@@ -24,7 +24,10 @@ export class AuthController {
     @Query('summonerName') summonerName: string,
     @Query('puuid') puuid: string,
   ) {
-    const user = await this.usersService.getUser({ summonerName, puuid });
+    const user = puuid
+      ? await this.usersService.getUser({ summonerName, puuid })
+      : await this.usersService.getUserByName(summonerName);
+
     if (!user) {
       throw new NotFoundException('User does not have a Luni account');
     }
