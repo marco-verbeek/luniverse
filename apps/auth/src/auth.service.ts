@@ -21,8 +21,8 @@ export class AuthService {
     );
 
     if (statsReq.status === 200) {
-      const { poroSnaxWon, poroSnaxLost } = await statsReq.json();
-      poroSnax = poroSnaxWon - poroSnaxLost;
+      const { poroSnax: totalPoroSnax } = await statsReq.json();
+      poroSnax = totalPoroSnax;
     }
 
     return {
