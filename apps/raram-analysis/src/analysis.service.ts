@@ -112,7 +112,7 @@ export class AnalysisService {
       const players = game.players.map((player) => ({
         championId: player.championId,
         championIconURL: getChampionIconURL(player.championId),
-        championLevel: player.champLevel,
+        championLevel: player.championLevel,
 
         kills: player.kills,
         deaths: player.deaths,
