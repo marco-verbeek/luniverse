@@ -1,4 +1,4 @@
-import ddragon from './data/ddragon.json';
+import * as ddragon from './data/ddragon.json';
 
 import { Champion } from './interfaces/champion';
 

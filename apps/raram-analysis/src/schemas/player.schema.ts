@@ -83,7 +83,7 @@ export class Player {
   totalTimeSpentDead: number;
 
   @Prop()
-  champLevel: number;
+  championLevel: number;
   @Prop()
   timePlayed: number;
   @Prop()

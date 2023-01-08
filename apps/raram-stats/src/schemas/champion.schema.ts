@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AbstractDocument } from '@luni/common';
+import { getChampionById, getChampionIconURL } from '@luni/champions';
 
 @Schema({ versionKey: false, _id: false })
 export class Champion extends AbstractDocument {
@@ -54,7 +55,7 @@ export class Champion extends AbstractDocument {
   spell4Casts: number;
 
   @Prop()
-  champLevel: number;
+  championLevel: number;
   @Prop()
   timePlayed: number;
   @Prop()
@@ -73,3 +74,15 @@ export class Champion extends AbstractDocument {
 }
 
 export const ChampionSchema = SchemaFactory.createForClass(Champion);
+
+ChampionSchema.virtual('poroSnax').get(function (this: Champion) {
+  return Math.ceil((this.poroSnaxWon - this.poroSnaxLost) * 1e2) / 1e2;
+});
+
+ChampionSchema.virtual('championIconURL').get(function (this: Champion) {
+  return getChampionIconURL(this.championId);
+});
+
+ChampionSchema.virtual('championName').get(function (this: Champion) {
+  return getChampionById(this.championId, ['name']).name;
+});

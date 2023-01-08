@@ -18,10 +18,17 @@ const GAME_IDS = [
 
 (async () => {
   // Register the user
-  await fetch(`${BASE_URL}/auth/users/register`, {
-    method: 'POST',
-    body: JSON.stringify({ summonerName: PLAYER_NAME }),
-  });
+  try {
+    await fetch(`${BASE_URL}/auth/users/register`, {
+      method: 'POST',
+      body: JSON.stringify({ summonerName: PLAYER_NAME }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (err) {
+    console.log('Could not register user', err);
+  }
 
   const analysisRequests = [];
 
@@ -32,7 +39,11 @@ const GAME_IDS = [
     );
   }
 
-  await Promise.allSettled(analysisRequests);
+  try {
+    await Promise.allSettled(analysisRequests);
+  } catch (err) {
+    console.log('Could not analyze all games', err);
+  }
 
   console.log('Done!');
 })();

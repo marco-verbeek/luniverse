@@ -23,6 +23,12 @@ export class UsersService {
     return this.usersRepository.findOne(queryObject);
   }
 
+  async getUserByName(summonerName: string) {
+    return this.usersRepository.findOne({
+      summonerName: { $regex: `^${summonerName}$`, $options: 'i' },
+    });
+  }
+
   async getQueuingUsers() {
     return this.usersRepository.find({ queuing: true });
   }
