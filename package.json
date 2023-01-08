@@ -9,7 +9,8 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "start": "docker-compose up",
-    "start:build": "docker-compose up --build -V"
+    "start:build": "docker-compose up --build -V",
+    "start:dev": "nest start --watch"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
