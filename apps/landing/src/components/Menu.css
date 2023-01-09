@@ -1,0 +1,7 @@
+.menu {
+  z-index: 100;
+  background-color: rgba(91, 91, 91, 0.4);
+  border-radius: 50px;
+  margin: 0px 10vw;
+  padding: 2vw 0px;
+}
