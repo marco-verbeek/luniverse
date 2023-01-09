@@ -117,18 +117,22 @@ export class StatsService {
       { puuid },
       {
         limit: 10,
-        sort: { gamesPlayed: 1 },
+        sort: { gamesPlayed: -1, gamesWon: -1, poroSnaxWon: -1 },
         fields: {
           championId: 1,
+          championName: 1,
+          championIconURL: 1,
 
           gamesPlayed: 1,
           gamesWon: 1,
           poroSnaxWon: 1,
           poroSnaxLost: 1,
+          poroSnax: 1,
 
           kills: 1,
           deaths: 1,
           assists: 1,
+          kda: 1,
         },
       },
     );
