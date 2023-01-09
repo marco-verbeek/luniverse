@@ -1,26 +1,38 @@
-FROM node:alpine As development
+# LOCAL DEVELOPMENT
+FROM node:18-alpine As development
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 
-RUN npm install
+RUN npm ci
 
-COPY . .
+COPY --chown=node:node . .
 
+USER node
+
+# BUILD FOR PRODUCTION
+FROM node:18-alpine As build
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package*.json ./
+
+COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node . .
+
+# Only build the auth microservice.
 RUN npm run build auth
 
-FROM node:alpine as production
-WORKDIR /usr/src/app
+ENV NODE_ENV production
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+RUN npm ci --only=production && npm cache clean --force
 
-COPY package*.json ./
+USER node
 
-RUN npm install --only=production
+# PRODUCTION OPTIMIZED
+FROM node:18-alpine As production
 
-COPY . .
+COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
-COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["node", "dist/apps/auth/main"]
+CMD [ "node", "dist/apps/auth/main.js" ]

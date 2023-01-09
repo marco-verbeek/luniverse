@@ -10,7 +10,8 @@
     "build": "nest build",
     "start": "docker-compose up",
     "start:build": "docker-compose up --build -V",
-    "start:dev": "nest start --watch"
+    "start:dev": "nest start --watch",
+    "auth:build": "docker build . -t luni/auth:latest -f ./apps/auth/Dockerfile --target=production"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

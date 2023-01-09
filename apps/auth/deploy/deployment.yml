@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: marcoverbeek/luni-auth:latest
+          env:
+            - name: NODE_ENV
+              value: 'production'
+          ports:
+            - containerPort: 3001
+          imagePullPolicy: Always
+      serviceAccountName: default
