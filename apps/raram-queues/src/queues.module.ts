@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
-import { LoggingModule } from '@luni/common';
+import { HealthModule, LoggingModule } from '@luni/common';
 import { RiotAPIModule } from '@luni/riot-api';
 import * as Joi from 'joi';
 
@@ -19,6 +19,7 @@ import { QueuesService } from './queues.service';
     }),
     LoggingModule,
     RiotAPIModule,
+    HealthModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [],

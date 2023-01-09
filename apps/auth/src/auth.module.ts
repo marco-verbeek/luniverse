@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule, LoggingModule } from '@luni/common';
+import { DatabaseModule, LoggingModule, HealthModule } from '@luni/common';
 import { RiotAPIModule } from '@luni/riot-api';
 import * as Joi from 'joi';
 
@@ -21,6 +21,7 @@ import { AuthService } from './auth.service';
     }),
     LoggingModule,
     DatabaseModule,
+    HealthModule,
     RiotAPIModule,
     UsersModule,
   ],

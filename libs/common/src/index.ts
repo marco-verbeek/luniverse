@@ -11,3 +11,5 @@ export * from './auth/fetch-user.helper';
 export * from './auth/user-profile.dto';
 
 export * from './logger/logging.module';
+
+export * from './health/health.module';

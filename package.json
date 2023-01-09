@@ -20,6 +20,7 @@
     "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/schedule": "^2.1.0",
+    "@nestjs/terminus": "^9.1.4",
     "amqp-connection-manager": "^4.1.9",
     "amqplib": "^0.10.3",
     "class-transformer": "^0.5.1",
