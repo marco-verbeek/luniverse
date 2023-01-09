@@ -1,7 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DatabaseModule, LoggingModule, RmqModule } from '@luni/common';
+import {
+  DatabaseModule,
+  HealthModule,
+  LoggingModule,
+  RmqModule,
+} from '@luni/common';
 import * as Joi from 'joi';
 
 import { StatsController } from './stats.controller';
@@ -33,6 +38,7 @@ import { PlayerRepository } from './repositories/player.repository';
     LoggingModule,
     RmqModule,
     DatabaseModule,
+    HealthModule,
     MongooseModule.forFeature([
       { name: AnalyzedGame.name, schema: AnalyzedGameSchema },
       { name: PlayedChampion.name, schema: PlayedChampionSchema },
