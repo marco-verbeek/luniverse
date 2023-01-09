@@ -75,6 +75,10 @@ export class Champion extends AbstractDocument {
 
 export const ChampionSchema = SchemaFactory.createForClass(Champion);
 
+ChampionSchema.virtual('kda').get(function (this: Champion) {
+  return Math.ceil(((this.kills + this.assists) / this.deaths) * 1e2) / 1e2;
+});
+
 ChampionSchema.virtual('poroSnax').get(function (this: Champion) {
   return Math.ceil((this.poroSnaxWon - this.poroSnaxLost) * 1e2) / 1e2;
 });
