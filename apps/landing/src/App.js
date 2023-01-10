@@ -1,12 +1,13 @@
 import Menu from './components/Menu.jsx';
+import { Avatar, Stack } from '@mui/material';
+
 import './App.css';
+import logo from './splash/logo.png';
 
 // @ts-ignore
 import gnarVideo from './splash/gnar.mp4';
 // @ts-ignore
 import gnarAudio from './splash/gnar.mp3';
-import { Avatar, Stack } from '@mui/material';
-import logo from './splash/logo.png';
 
 function App() {
   return (
