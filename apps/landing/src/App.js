@@ -34,7 +34,7 @@ function App() {
         <Menu />
       </Stack>
 
-      <p>TODO: Mute music, disable animations</p>
+      {/* TODO: Buttons to mute music and disable animations */}
     </div>
   );
 }
