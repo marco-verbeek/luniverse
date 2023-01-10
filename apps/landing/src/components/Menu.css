@@ -1,7 +1,12 @@
 .menu {
   z-index: 100;
-  background-color: rgba(91, 91, 91, 0.4);
-  border-radius: 50px;
-  margin: 0px 10vw;
-  padding: 2vw 0px;
+  background: linear-gradient(129.47deg, #ed6c024b 34%, #ffffff5d 100%);
+  border-radius: 5px;
+  margin: 0 10vw;
+  padding: 2vw 0;
+}
+
+.logo {
+  /* position: absolute; */
+  /* top: -5vh; */
 }
