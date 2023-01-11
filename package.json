@@ -10,7 +10,10 @@
     "build": "nest build",
     "start": "docker-compose up",
     "start:build": "docker-compose up --build -V",
-    "start:dev": "nest start --watch"
+    "start:dev": "nest start --watch",
+    "auth:build": "docker build . -t marcoverbeek/luni-auth:latest -f ./apps/auth/Dockerfile --target=production",
+    "auth:push": "docker push marcoverbeek/luni-auth:latest",
+    "auth:deploy": "cd apps/auth/deploy && helm upgrade --install luni-auth ."
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

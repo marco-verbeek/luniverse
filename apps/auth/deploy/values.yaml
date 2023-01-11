@@ -1,0 +1,19 @@
+environment: local
+replicaCount: 1
+
+image: marcoverbeek/luni-auth:latest
+
+mongodb:
+  enabled: true
+  auth:
+    rootPassword: toor # TODO: secure this by using Secrets instead!
+# rabbitmq:
+#   enabled: true
+
+env:
+  PORT: 3002
+
+secrets:
+  luni-auth-secrets:
+    - MONGODB_URI
+    - RIOT_API_KEY
