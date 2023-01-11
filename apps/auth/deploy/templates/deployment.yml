@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: {{ .Values.image }}
+          env:
+            - name: NODE_ENV
+              value: 'production'
+            - name: PORT
+              value: {{ .Values.env.PORT | quote }}
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: luni-auth-secrets 
+                  key: MONGODB_URI
+            - name: RIOT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: luni-auth-secrets 
+                  key: RIOT_API_KEY
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.env.PORT }}
+              path: /health
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          ports:
+            - containerPort: {{ .Values.env.PORT }}
+          imagePullPolicy: Always
+      serviceAccountName: default
