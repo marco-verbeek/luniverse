@@ -1,5 +1,8 @@
 .DS_Store
 
+# Important to Helmignore this file otherwise it will override the secrets!
+/templates/secrets.yml.sample
+
 # Common VCS dirs
 .git/
 .gitignore

@@ -1,11 +1,11 @@
 apiVersion: v2
-version: 0.1.0
+version: 0.1.1
 
 name: Luni Auth
 description: A Helm chart for Luni's Auth Microservice
 
 type: application
-appVersion: '1.0.0'
+appVersion: '1.0.1'
 
 dependencies:
   - name: mongodb
