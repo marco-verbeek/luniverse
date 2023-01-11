@@ -52,10 +52,9 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   }
 
   async find(filterQuery: FilterQuery<TDocument>, options: QueryOptions = {}) {
-    return this.model.find(
-      filterQuery,
-      {},
-      { lean: { virtuals: true }, ...options },
-    );
+    return this.model.find(filterQuery, options.fields || {}, {
+      lean: { virtuals: true },
+      ...options,
+    });
   }
 }

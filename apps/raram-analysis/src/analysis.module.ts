@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   DatabaseModule,
+  HealthModule,
   LoggingModule,
   RmqModule,
   STATS_QUEUE,
@@ -34,6 +35,7 @@ import { Analysis, AnalysisSchema } from './schemas/analysis.schema';
     LoggingModule,
     RiotAPIModule,
     DatabaseModule,
+    HealthModule,
     MongooseModule.forFeature([
       { name: Analysis.name, schema: AnalysisSchema },
     ]),
