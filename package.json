@@ -10,7 +10,10 @@
     "build": "nest build",
     "start": "docker-compose up",
     "start:build": "docker-compose up --build -V",
-    "start:dev": "nest start --watch"
+    "start:dev": "nest start --watch",
+    "auth:build": "docker build . -t marcoverbeek/luni-auth:latest -f ./apps/auth/Dockerfile --target=production",
+    "auth:push": "docker push marcoverbeek/luni-auth:latest",
+    "auth:deploy": "cd apps/auth/deploy && helm upgrade --install luni-auth ."
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -20,12 +23,13 @@
     "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/schedule": "^2.1.0",
+    "@nestjs/terminus": "^9.1.4",
     "amqp-connection-manager": "^4.1.9",
     "amqplib": "^0.10.3",
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.13.2",
+    "class-validator": "^0.14.0",
     "joi": "^17.7.0",
-    "mongoose": "^6.7.2",
+    "mongoose": "^6.8.3",
     "mongoose-lean-virtuals": "^0.9.1",
     "nestjs-pino": "^3.1.1",
     "pino-http": "^8.3.1",

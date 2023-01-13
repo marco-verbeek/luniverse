@@ -113,3 +113,7 @@ export const PlayerSchema = SchemaFactory.createForClass(Player);
 PlayerSchema.virtual('kp').get(function () {
   return this.kills + this.assists;
 });
+
+PlayerSchema.virtual('kda').get(function (this: Player) {
+  return Math.ceil(((this.kills + this.assists) / this.deaths) * 1e2) / 1e2;
+});

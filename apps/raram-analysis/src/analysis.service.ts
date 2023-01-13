@@ -117,6 +117,8 @@ export class AnalysisService {
         kills: player.kills,
         deaths: player.deaths,
         assists: player.assists,
+        // @ts-expect-error because this is a virtual property on the Schema.
+        kda: player.kda,
 
         summonerName: player.summonerName,
         snaxGain: player.poroSnaxGain,
