@@ -1,0 +1,9 @@
+.championLevel {
+  position: relative;
+  top: -15px;
+  left: 15px;
+  background-color: rgba(58, 79, 122, 0.6);
+  width: fit-content;
+  padding: 2px 4px;
+  border-radius: 50px;
+}

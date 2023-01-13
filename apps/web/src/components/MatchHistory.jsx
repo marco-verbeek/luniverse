@@ -1,18 +1,17 @@
-import { Typography } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import Champion from './Champion';
+import Match from './Match';
 
-function TopPlayedChampions() {
+function MatchHistory() {
   const { summonerName } = useParams();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['topPlayedChampions'],
+    queryKey: ['matchHistory'],
     queryFn: () =>
-      fetch(`http://localhost:80/stats/players/${summonerName}/champions`).then(
-        (res) => res.json(),
-      ),
+      fetch(
+        `http://localhost:80/analysis/players/${summonerName}/history`,
+      ).then((res) => res.json()),
     keepPreviousData: true,
   });
 
@@ -21,7 +20,7 @@ function TopPlayedChampions() {
   }
 
   return (
-    <Stack direction="column" spacing="12px" width="40%">
+    <Stack direction="column" spacing="12px" width="60%">
       <Typography
         variant="h5"
         display="flex"
@@ -30,14 +29,12 @@ function TopPlayedChampions() {
         border="1px solid #596680"
         borderRadius="5px"
       >
-        Top Played Champions
+        Match History
       </Typography>
-
-      {data.map((champion) => (
-        <Champion champion={champion} />
+      {data.map((match) => (
+        <Match match={match} />
       ))}
     </Stack>
   );
 }
-
-export default TopPlayedChampions;
+export default MatchHistory;
