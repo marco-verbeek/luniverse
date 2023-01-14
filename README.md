@@ -8,7 +8,7 @@ Our next project is Poro Snowdown, a mini game where players have to guess which
 
 Luniverse's rARAM is a complete rewrite of the previous version, rARAM v2. While rARAM v2 was a monolithic application, Luniverse's rARAM is being built using a microservice architecture. This means that the different aspects of the application are split into smaller, independent services that communicate with each other through APIs. The different microservices will be explained later on.
 
-### History
+# History
 
 While rARAM v1 and v2 were built on a polyrepo structure wherein the Discord bot and the Backend were distincly separated, rARAM v3 is approaching it differently with this mono-repo. rARAM's backend has seen quite an evolution; it all started when I had zero backend experience with a simple ExpressJS API. Then, I decided to learn NestJS, which very quickly became my 'coup de coeur'. rARAM v3 pushes my passion for NestJS even further, utilizing its microservice approach as a learning project.
 
@@ -17,6 +17,27 @@ One of the main goals of this project is for me to learn about microservices and
 In addition to the technical learning opportunities, I'm also looking to improve the coding practices, without sacrificing too much time on perfection. This involves refactoring the previous codebase in order to follow best practices, improving existing code and adding new features and functionality. It is important for me to remember that a personal project such as this one should not strive to be perfect; this is something very valuable that I have learned in the past year.
 
 Overall, Luniverse's rARAM is a great **learning** project that allows me to **explore** new technologies and **improve** my coding skills **in a fun and engaging way**. Hopefully you'll like it too!
+
+# What's next?
+
+As of 14/01/23, I have decided to pause the development of rARAM for a totally different project. It has been super interesting and I'm hoping to come back to this one day. Here are the tasks that I still wanted to do:
+
+### Deployment
+
+I'd like to finish the K8S deployment of the microservices. Good progress has already been made using Helm in the auth microservice. The main problem I've encountered is the deployment of the MongoDB instance. I wanted to deploy the microservices on Linode.
+
+### Logging and Monitoring
+
+I was experimenting with Betterstack's Logtail. A branch can be found on the repository with the minimalistic setup that is required in each microservice. It all comes down to a LoggerModule shared in `@luni/common`. Using Prometheus metrics in a Grafana instance was planned but I didn't have the time to do it.
+
+### Realtime
+
+It might be interesting to send Realtime messages (with Ably for example) in order to let the frontend know when a game has been analyzed.
+
+### Frontend
+
+The frontend could implement more pages including leaderboards and a register/login system.
+The React apps have yet to be Dockerized.
 
 # Architecture
 
