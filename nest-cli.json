@@ -71,6 +71,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/champions/tsconfig.lib.json"
       }
+    },
+    "snowd-api": {
+      "type": "application",
+      "root": "apps/snowd-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/snowd-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/snowd-api/tsconfig.app.json"
+      }
     }
   }
 }
