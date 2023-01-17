@@ -1,0 +1,30 @@
+[
+  {
+    "id": "odheOwNb8chdkowaVBDP6",
+    "championId": 266,
+    "audio": "https://static.wikia.nocookie.net/leagueoflegends/images/4/4a/Aatrox_Select.ogg",
+    "text": "Now, hear the silence of annihilation!",
+    "type": "QuoteType.PICK"
+  },
+  {
+    "id": "apbWuZ2GJYsbhngkNiObo",
+    "championId": 266,
+    "audio": "https://static.wikia.nocookie.net/leagueoflegends/images/6/67/Aatrox_Ban.ogg",
+    "text": "Let me end this!",
+    "type": "QuoteType.BAN"
+  },
+  {
+    "id": "qgqFiTc96wnFNNTDGTRys",
+    "championId": 150,
+    "audio": "https://static.wikia.nocookie.net/leagueoflegends/images/9/94/Gnar_Select.ogg",
+    "text": "Gnar gada!",
+    "type": "QuoteType.PICK"
+  },
+  {
+    "id": "eleicllwKoOimsAOJ2bIW",
+    "championId": 150,
+    "audio": "https://static.wikia.nocookie.net/leagueoflegends/images/0/06/Gnar_Original_Taunt_1.ogg",
+    "text": "Shugi shugi shugi!",
+    "type": "QuoteType.TAUNT"
+  }
+]
