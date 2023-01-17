@@ -38,7 +38,7 @@ export class SessionsService {
       type,
     });
 
-    return { session: { ...session, _id: undefined }, data: guess.data };
+    return { ...session, _id: undefined, data: guess.data };
   }
 
   async guess(sessionId: string, guess: GuessDTO) {
@@ -64,7 +64,12 @@ export class SessionsService {
         { $inc: { streak: 1 }, $set: { guessId: guess.id } },
       );
 
-      return { ...response, data: guess.data };
+      return {
+        ...response,
+        id: session.id,
+        streak: session.streak + 1,
+        data: guess.data,
+      };
     } else {
       await this.sessionsRepository.findOneAndUpdate(
         { id: session.id },
