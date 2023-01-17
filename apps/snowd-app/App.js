@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import Defeat from './screens/Defeat';
 import Home from './screens/Home';
 import { PageType } from './screens/page-types';
 import Play from './screens/Play';
@@ -22,6 +23,10 @@ export default function App() {
 
         {page === PageType.PLAY && (
           <Play setPage={setPage} session={session} setSession={setSession} />
+        )}
+
+        {page === PageType.DEFEAT && (
+          <Defeat setPage={setPage} session={session} />
         )}
 
         <StatusBar style="auto" />

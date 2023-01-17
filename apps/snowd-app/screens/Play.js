@@ -43,7 +43,7 @@ export default function Play({ setPage, session, setSession }) {
 
     const data = await request.json();
     if (!data.correct) {
-      setPage(PageType.HOME);
+      setPage(PageType.DEFEAT);
       return;
     }
 
