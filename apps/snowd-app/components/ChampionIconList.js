@@ -3,13 +3,18 @@ import PressableIcon from './PressableIcon';
 
 const DATA = [{ id: 150 }, { id: 266 }];
 
-export default function ChampionIconList({ onPress }) {
+export default function ChampionIconList({ onPress, selectedIcon }) {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={DATA}
         renderItem={({ item }) => (
-          <PressableIcon id={item.id} key={item.id} onPress={onPress} />
+          <PressableIcon
+            id={item.id}
+            key={item.id}
+            onPress={onPress}
+            isSelected={selectedIcon === item.id}
+          />
         )}
         horizontal={true}
       />

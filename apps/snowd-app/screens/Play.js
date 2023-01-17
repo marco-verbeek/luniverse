@@ -12,6 +12,7 @@ const LuniLogo = require('../assets/adaptive-icon.png');
 export default function Play({ setPage, session, setSession }) {
   const [guessText, setGuessText] = useState('');
   const [quoteSound, setQuoteSound] = useState();
+  const [selectedIcon, setSelectedIcon] = useState();
 
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync({
@@ -26,6 +27,7 @@ export default function Play({ setPage, session, setSession }) {
     // const champName = getChampionById(id, ['name']).name;
     const champName = id === 266 ? 'Aatrox' : 'Gnar';
 
+    setSelectedIcon(id);
     setGuessText(champName);
   };
 
@@ -47,6 +49,7 @@ export default function Play({ setPage, session, setSession }) {
 
     setSession(data);
     setGuessText('');
+    setSelectedIcon(0);
   };
 
   // Unload the sound once finished.
@@ -78,8 +81,7 @@ export default function Play({ setPage, session, setSession }) {
       </View>
 
       <View style={styles.centeredContainer}>
-        <ChampionIconList onPress={onIconClick} />
-
+        <ChampionIconList onPress={onIconClick} selectedIcon={selectedIcon} />
         <Button label="SUBMIT" onPress={submitGuess} />
       </View>
     </>
