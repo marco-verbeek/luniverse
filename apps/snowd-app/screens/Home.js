@@ -22,9 +22,11 @@ export default function Home({ setPage, setSession }) {
       <View style={styles.imageContainer}>
         <Image source={LuniLogo} style={styles.image} />
       </View>
+
       <View style={styles.textContainer}>
         <Text style={styles.text}>Snowdown</Text>
       </View>
+
       <View>
         <Button label="PLAY" onPress={createSession} />
       </View>

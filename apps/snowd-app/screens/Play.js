@@ -1,8 +1,9 @@
 import { Audio } from 'expo-av';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import Button from '../components/Button';
+import ChampionIconList from '../components/ChampionIconList';
 import { PageType } from './page-types';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -19,6 +20,13 @@ export default function Play({ setPage, session, setSession }) {
     setQuoteSound(sound);
 
     await sound.playAsync();
+  };
+
+  const onIconClick = (id) => {
+    // const champName = getChampionById(id, ['name']).name;
+    const champName = id === 266 ? 'Aatrox' : 'Gnar';
+
+    setGuessText(champName);
   };
 
   const submitGuess = async () => {
@@ -70,11 +78,8 @@ export default function Play({ setPage, session, setSession }) {
       </View>
 
       <View style={styles.centeredContainer}>
-        <TextInput
-          onChangeText={setGuessText}
-          value={guessText}
-          placeholder="Champion name"
-        />
+        <ChampionIconList onPress={onIconClick} />
+
         <Button label="SUBMIT" onPress={submitGuess} />
       </View>
     </>
