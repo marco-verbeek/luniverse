@@ -15,6 +15,10 @@ export default function Play({ setPage, session, setSession }) {
   const [selectedIcon, setSelectedIcon] = useState();
 
   const playSound = async () => {
+    if (!session?.data?.quoteUrl) {
+      return;
+    }
+
     const { sound } = await Audio.Sound.createAsync({
       uri: session.data.quoteUrl,
     });
@@ -42,12 +46,13 @@ export default function Play({ setPage, session, setSession }) {
     );
 
     const data = await request.json();
+    setSession(data);
+
     if (!data.correct) {
       setPage(PageType.DEFEAT);
       return;
     }
 
-    setSession(data);
     setGuessText('');
     setSelectedIcon(0);
   };
