@@ -5,7 +5,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "node ./src/scraper.js"
+    "start": "node ./src/scraper.js",
+    "bundler": "node ./src/bundler.js"
   },
   "keywords": [],
   "author": "Marco VERBEEK",
