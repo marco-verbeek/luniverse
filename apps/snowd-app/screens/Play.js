@@ -45,7 +45,7 @@ export default function Play({ setPage, session, setSession }) {
     const data = await request.json();
     setSession(data);
 
-    if (!data.correct) {
+    if (session.mode === 'SessionMode.HARD' && !data.correct) {
       setPage(PageType.DEFEAT);
       return;
     }

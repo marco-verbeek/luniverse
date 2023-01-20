@@ -6,10 +6,18 @@ import { PageType } from '../data/page-types';
 const LuniLogo = require('../assets/adaptive-icon.png');
 
 export default function Home({ setPage, setSession }) {
-  const createSession = async () => {
+  const createSessionHard = () => {
+    createSession('SessionMode.HARD');
+  };
+
+  const createSessionInfinite = () => {
+    createSession('SessionMode.INFINITE');
+  };
+
+  const createSession = async (mode) => {
     const req = await fetch('http://192.168.86.46:2999/sessions', {
       method: 'POST',
-      body: JSON.stringify({ mode: 'SessionMode.HARD' }),
+      body: JSON.stringify({ mode }),
       headers: { 'Content-Type': 'application/json' },
     });
 
@@ -30,7 +38,8 @@ export default function Home({ setPage, setSession }) {
       </View>
 
       <View>
-        <Button label="PLAY" onPress={createSession} />
+        <Button label="HARD MODE" onPress={createSessionHard} />
+        <Button label="INFINITE MODE" onPress={createSessionInfinite} />
       </View>
     </>
   );

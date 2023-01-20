@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { QuotesModule } from '../quotes/quotes.module';
 import { HardSessionHandler } from './hard-session.handler';
+import { InfiniteSessionHandler } from './infinite-session.handler';
 import { PlayerGuessRepository } from './player-guesses.repository';
 import { PlayerGuess, PlayerGuessSchema } from './schemas/player-guess.schema';
 import { Session, SessionSchema } from './schemas/session.schema';
@@ -20,9 +21,10 @@ import { SessionsService } from './sessions.service';
   providers: [
     SessionsService,
     HardSessionHandler,
+    InfiniteSessionHandler,
     SessionsRepository,
     PlayerGuessRepository,
   ],
-  exports: [SessionsService, HardSessionHandler],
+  exports: [SessionsService],
 })
 export class SessionsModule {}

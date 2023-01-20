@@ -11,6 +11,7 @@ import { AbstractTypeHandler } from '../abstract-type-handler';
 import { GuessDTO } from '../dtos/guess.dto';
 import { GuessQuotesService } from '../quotes/guessing/guess-quotes.service';
 import { HardSessionHandler } from './hard-session.handler';
+import { InfiniteSessionHandler } from './infinite-session.handler';
 import { PlayerGuessRepository } from './player-guesses.repository';
 import { SessionsRepository } from './sessions.repository';
 
@@ -21,6 +22,7 @@ export class SessionsService {
     private readonly playerGuessRepository: PlayerGuessRepository,
     private readonly quotesHandler: GuessQuotesService,
     private readonly hardSessionHandler: HardSessionHandler,
+    private readonly infiniteSessionHandler: InfiniteSessionHandler,
   ) {}
 
   getTypeHandler(type: string): AbstractTypeHandler {
@@ -37,7 +39,7 @@ export class SessionsService {
       case SessionMode.HARD:
         return this.hardSessionHandler;
       case SessionMode.INFINITE:
-        return null;
+        return this.infiniteSessionHandler;
     }
 
     throw new BadRequestException();
