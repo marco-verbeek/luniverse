@@ -2,7 +2,7 @@
 
 Welcome to Luniverse, a collection of projects inspired by the League of Legends universe. Our first project is rARAM, a small dashboard that helps you track your performance in ARAM games. With rARAM, you can see how well you played and compare your Poro Points with your friends. It also keeps track of champion-specific stats! In the future, we'll possibly be adding a leaderboard feature, the ability to add friends and form a guild and a shop where you can spend your hard earned Poro Snax!
 
-Our next project is Poro Snowdown, a mini game where players have to guess which champion said a certain quote. Stay tuned for more updates on these and other exciting projects in the Luniverse!
+The second project, done in early january 2023 is called Poro Snowdown, a mini game where players have to guess which champion said a certain quote. More info below!
 
 # Why
 
@@ -57,3 +57,19 @@ Luni ->> raram-stats: Request profile stats
 raram-stats ->> raram-stats: Retrieve profile stats
 raram-stats ->> Luni: Profile stats
 ```
+
+# Snowdown
+
+Snowdown is a monolithic API built with NestJS and a MongoDB database. It contains player guesses, champion quotes, and game sessions. The frontend of the application is built with React Native and Expo, which allowed for quick learning of mobile development.
+
+A simple scraper was built with Puppeteer to gather URLs for champion quotes. The scraper gathered a total of 17000 quotes, making for a fun guessing experience!
+
+## Game Modes
+
+Snowdown has two modes: "hard" and "infinite". In "hard" mode, the game stops as soon as an incorrect guess is made. In "infinite" mode, the game continues with new quotes each time and displays the correct answer, regardless of whether the player correctly guesses the champion. Both modes have a "streak" feature that displays how many quotes have been correctly guessed without failure.
+
+The development of Snowdown was greatly informed by "guess-quote", an earlier version of the application that I worked on in the past. Lessons learned include not saving each quote as a file in the MongoDB (which brings a lot of complexity), using URLs to access quotes (super easy, enough for such a small project), and using champion IDs instead of champion names.
+
+## Demo
+
+https://user-images.githubusercontent.com/56871713/213805118-ce49df9f-70aa-4a2d-9dda-078386d2550e.mp4
