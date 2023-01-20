@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { PageType } from './data/page-types';
 import Defeat from './screens/Defeat';
+import Header from './screens/Header';
 import Home from './screens/Home';
 import Play from './screens/Play';
 
@@ -17,6 +18,8 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <View style={styles.container}>
+        <Header />
+
         {page === PageType.HOME && (
           <Home setPage={setPage} setSession={setSession} />
         )}

@@ -1,13 +1,10 @@
 import { Audio } from 'expo-av';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import ChampionIconList from '../components/ChampionIconList';
 import { PageType } from '../data/page-types';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const LuniLogo = require('../assets/adaptive-icon.png');
 
 export default function Play({ setPage, session, setSession }) {
   const [guessText, setGuessText] = useState(0);
@@ -33,6 +30,10 @@ export default function Play({ setPage, session, setSession }) {
   };
 
   const submitGuess = async () => {
+    if (!guessText || guessText === 0) {
+      return;
+    }
+
     const request = await fetch(
       `http://192.168.86.46:2999/sessions/${session.id}/guess`,
       {
@@ -70,10 +71,6 @@ export default function Play({ setPage, session, setSession }) {
 
   return (
     <>
-      <View style={styles.centeredContainer}>
-        <Image source={LuniLogo} style={styles.image} />
-      </View>
-
       <View style={styles.textContainer}>
         <Text style={styles.text}>Current streak: {session.streak}</Text>
       </View>
@@ -93,10 +90,6 @@ export default function Play({ setPage, session, setSession }) {
 const styles = StyleSheet.create({
   centeredContainer: {
     alignItems: 'center',
-  },
-  image: {
-    width: 256,
-    height: 256,
   },
   textContainer: {
     marginTop: -50,

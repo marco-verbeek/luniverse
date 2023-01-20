@@ -1,9 +1,6 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
 import { PageType } from '../data/page-types';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const LuniLogo = require('../assets/adaptive-icon.png');
 
 export default function Home({ setPage, setSession }) {
   const createSessionHard = () => {
@@ -29,10 +26,6 @@ export default function Home({ setPage, setSession }) {
 
   return (
     <>
-      <View style={styles.imageContainer}>
-        <Image source={LuniLogo} style={styles.image} />
-      </View>
-
       <View style={styles.textContainer}>
         <Text style={styles.text}>Snowdown</Text>
       </View>
@@ -46,13 +39,6 @@ export default function Home({ setPage, setSession }) {
 }
 
 const styles = StyleSheet.create({
-  imageContainer: {
-    alignItems: 'center',
-  },
-  image: {
-    width: 256,
-    height: 256,
-  },
   textContainer: {
     marginTop: -50,
   },
