@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { PageType } from './data/page-types';
 import Defeat from './screens/Defeat';
+import Header from './screens/Header';
 import Home from './screens/Home';
-import { PageType } from './screens/page-types';
 import Play from './screens/Play';
 
 export default function App() {
@@ -17,6 +18,9 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <View style={styles.container}>
+        <StatusBar style="auto" />
+        <Header />
+
         {page === PageType.HOME && (
           <Home setPage={setPage} setSession={setSession} />
         )}
@@ -28,8 +32,6 @@ export default function App() {
         {page === PageType.DEFEAT && (
           <Defeat setPage={setPage} session={session} />
         )}
-
-        <StatusBar style="auto" />
       </View>
     </QueryClientProvider>
   );

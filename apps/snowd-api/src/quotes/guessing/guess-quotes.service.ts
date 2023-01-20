@@ -1,14 +1,14 @@
 import { nanoid } from '@luni/common';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { AbstractGuessHandler } from '../../abstract-guess-handler';
+import { AbstractTypeHandler } from '../../abstract-type-handler';
 import { GuessDTO } from '../../dtos/guess.dto';
 import { VerifiedGuessDTO } from '../../dtos/verified-guess.dto';
 import { ChampionQuotesRepository } from '../champion-quotes.repository';
 import { GuessQuotesRepository } from './guess-quotes.repository';
 
 @Injectable()
-export class GuessQuotesService extends AbstractGuessHandler {
+export class GuessQuotesService extends AbstractTypeHandler {
   constructor(
     private readonly guessQuotesRepository: GuessQuotesRepository,
     private readonly championQuotesRepository: ChampionQuotesRepository,
@@ -37,10 +37,8 @@ export class GuessQuotesService extends AbstractGuessHandler {
     }
 
     return {
-      correct:
-        guess.answer.toLowerCase() ===
-        dbGuess.championQuote.championName.toLowerCase(),
-      solution: dbGuess.championQuote.championName,
+      correct: Number(guess.answer) === dbGuess.championQuote.championId,
+      solution: JSON.stringify(dbGuess.championQuote.championId),
     };
   }
 }

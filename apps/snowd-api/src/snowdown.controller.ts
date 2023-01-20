@@ -1,5 +1,6 @@
 import { SessionType } from '@luni/common';
 import { Body, Controller, Param, Post } from '@nestjs/common';
+import { CreateSessionDTO } from './dtos/create-session.dto';
 
 import { GuessDTO } from './dtos/guess.dto';
 import { SessionsService } from './sessions/sessions.service';
@@ -9,9 +10,10 @@ export class SnowdownController {
   constructor(private readonly sessionsService: SessionsService) {}
 
   @Post()
-  async createSession() {
+  async createSession(@Body() data: CreateSessionDTO) {
     const createdSession = await this.sessionsService.create(
       SessionType.GUESS_QUOTE,
+      data.mode,
     );
 
     return createdSession;
