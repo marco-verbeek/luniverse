@@ -18,6 +18,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <View style={styles.container}>
+        <StatusBar style="auto" />
         <Header />
 
         {page === PageType.HOME && (
@@ -31,8 +32,6 @@ export default function App() {
         {page === PageType.DEFEAT && (
           <Defeat setPage={setPage} session={session} />
         )}
-
-        <StatusBar style="auto" />
       </View>
     </QueryClientProvider>
   );
