@@ -1,22 +1,23 @@
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { Champions } from '../data/champions';
 import PressableIcon from './PressableIcon';
-
-const DATA = [{ id: 150 }, { id: 266 }];
 
 export default function ChampionIconList({ onPress, selectedIcon }) {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={DATA}
-        renderItem={({ item }) => (
+        data={Object.values(Champions)}
+        renderItem={(data) => (
           <PressableIcon
-            id={item.id}
-            key={item.id}
+            id={data.item}
+            key={data.item}
             onPress={onPress}
-            isSelected={selectedIcon === item.id}
+            isSelected={selectedIcon === data.item}
           />
         )}
-        horizontal={true}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+        numColumns={4}
       />
     </SafeAreaView>
   );
@@ -26,6 +27,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 40,
-    maxHeight: '40%',
+    maxHeight: '56%',
   },
 });

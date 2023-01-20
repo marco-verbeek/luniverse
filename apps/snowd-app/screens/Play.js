@@ -4,15 +4,15 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import ChampionIconList from '../components/ChampionIconList';
-import { PageType } from './page-types';
+import { PageType } from '../data/page-types';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const LuniLogo = require('../assets/adaptive-icon.png');
 
 export default function Play({ setPage, session, setSession }) {
-  const [guessText, setGuessText] = useState('');
+  const [guessText, setGuessText] = useState(0);
   const [quoteSound, setQuoteSound] = useState();
-  const [selectedIcon, setSelectedIcon] = useState();
+  const [selectedIcon, setSelectedIcon] = useState(0);
 
   const playSound = async () => {
     if (!session?.data?.quoteUrl) {
@@ -28,11 +28,8 @@ export default function Play({ setPage, session, setSession }) {
   };
 
   const onIconClick = (id) => {
-    // const champName = getChampionById(id, ['name']).name;
-    const champName = id === 266 ? 'Aatrox' : 'Gnar';
-
     setSelectedIcon(id);
-    setGuessText(champName);
+    setGuessText(id);
   };
 
   const submitGuess = async () => {
@@ -40,7 +37,7 @@ export default function Play({ setPage, session, setSession }) {
       `http://192.168.86.46:2999/sessions/${session.id}/guess`,
       {
         method: 'POST',
-        body: JSON.stringify({ answer: guessText.trim() }),
+        body: JSON.stringify({ answer: JSON.stringify(guessText) }),
         headers: { 'Content-Type': 'application/json' },
       },
     );
@@ -53,7 +50,7 @@ export default function Play({ setPage, session, setSession }) {
       return;
     }
 
-    setGuessText('');
+    setGuessText(0);
     setSelectedIcon(0);
   };
 

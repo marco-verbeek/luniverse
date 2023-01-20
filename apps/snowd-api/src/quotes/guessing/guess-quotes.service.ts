@@ -37,9 +37,7 @@ export class GuessQuotesService extends AbstractGuessHandler {
     }
 
     return {
-      correct:
-        guess.answer.toLowerCase() ===
-        dbGuess.championQuote.championName.toLowerCase(),
+      correct: Number(guess.answer) === dbGuess.championQuote.championId,
       solution: dbGuess.championQuote.championName,
     };
   }

@@ -13,7 +13,9 @@
     "start:dev": "nest start --watch",
     "auth:build": "docker build . -t marcoverbeek/luni-auth:latest -f ./apps/auth/Dockerfile --target=production",
     "auth:push": "docker push marcoverbeek/luni-auth:latest",
-    "auth:deploy": "cd apps/auth/deploy && helm upgrade --install luni-auth ."
+    "auth:deploy": "cd apps/auth/deploy && helm upgrade --install luni-auth .",
+    "snowd:api": "docker-compose up snowdown-api",
+    "snowd:app": "cd apps/snowd-app && npm start"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

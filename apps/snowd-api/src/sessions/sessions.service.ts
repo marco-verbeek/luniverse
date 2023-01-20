@@ -9,12 +9,14 @@ import {
 import { AbstractGuessHandler } from '../abstract-guess-handler';
 import { GuessDTO } from '../dtos/guess.dto';
 import { GuessQuotesService } from '../quotes/guessing/guess-quotes.service';
+import { PlayerGuessRepository } from './player-guesses.repository';
 import { SessionsRepository } from './sessions.repository';
 
 @Injectable()
 export class SessionsService {
   constructor(
     private readonly sessionsRepository: SessionsRepository,
+    private readonly playerGuessRepository: PlayerGuessRepository,
     private readonly quotesHandler: GuessQuotesService,
   ) {}
 
@@ -51,24 +53,32 @@ export class SessionsService {
       throw new GoneException('Session is already finished');
     }
 
-    // TODO: add guess to database
-
     const handler = this.getHandlerByType(session.type);
     const response = await handler.verify(session.guessId, guess);
 
+    await this.playerGuessRepository.upsert(
+      { guessId: session.guessId, guessed: guess.answer },
+      {
+        id: nanoid(),
+        guessId: session.guessId,
+        guessed: guess.answer,
+        correct: response.correct,
+      },
+    );
+
     if (response.correct) {
-      const guess = await handler.create();
+      const hGuess = await handler.create();
 
       await this.sessionsRepository.findOneAndUpdate(
         { id: session.id },
-        { $inc: { streak: 1 }, $set: { guessId: guess.id } },
+        { $inc: { streak: 1 }, $set: { guessId: hGuess.id } },
       );
 
       return {
         ...response,
         id: session.id,
         streak: session.streak + 1,
-        data: guess.data,
+        data: hGuess.data,
       };
     } else {
       await this.sessionsRepository.findOneAndUpdate(

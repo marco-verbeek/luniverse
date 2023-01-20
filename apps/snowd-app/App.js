@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { PageType } from './data/page-types';
 import Defeat from './screens/Defeat';
 import Home from './screens/Home';
-import { PageType } from './screens/page-types';
 import Play from './screens/Play';
 
 export default function App() {

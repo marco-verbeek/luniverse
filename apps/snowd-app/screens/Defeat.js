@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
-import { PageType } from './page-types';
+import { PageType } from '../data/page-types';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const LuniLogo = require('../assets/adaptive-icon.png');
