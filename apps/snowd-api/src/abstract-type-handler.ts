@@ -2,7 +2,7 @@ import { NotImplementedException } from '@nestjs/common';
 
 import { GuessDTO } from './dtos/guess.dto';
 
-export abstract class AbstractGuessHandler {
+export abstract class AbstractTypeHandler {
   async verify(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     guessId: string,

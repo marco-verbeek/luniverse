@@ -15,12 +15,12 @@ export default function Play({ setPage, session, setSession }) {
   const [selectedIcon, setSelectedIcon] = useState(0);
 
   const playSound = async () => {
-    if (!session?.data?.quoteUrl) {
+    if (!session?.quoteUrl) {
       return;
     }
 
     const { sound } = await Audio.Sound.createAsync({
-      uri: session.data.quoteUrl,
+      uri: session.quoteUrl,
     });
     setQuoteSound(sound);
 

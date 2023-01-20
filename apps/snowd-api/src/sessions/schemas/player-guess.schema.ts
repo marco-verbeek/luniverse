@@ -14,6 +14,9 @@ export class PlayerGuess extends AbstractDocument {
 
   @Prop()
   correct: boolean;
+
+  @Prop({ default: 1 })
+  amount: number;
 }
 
 export const PlayerGuessSchema = SchemaFactory.createForClass(PlayerGuess);

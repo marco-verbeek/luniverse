@@ -9,6 +9,8 @@ export default function Home({ setPage, setSession }) {
   const createSession = async () => {
     const req = await fetch('http://192.168.86.46:2999/sessions', {
       method: 'POST',
+      body: JSON.stringify({ mode: 'SessionMode.HARD' }),
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const session = await req.json();

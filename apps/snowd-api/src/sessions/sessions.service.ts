@@ -1,4 +1,4 @@
-import { nanoid, SessionType } from '@luni/common';
+import { nanoid, SessionMode, SessionType } from '@luni/common';
 import {
   BadRequestException,
   GoneException,
@@ -6,9 +6,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import { AbstractGuessHandler } from '../abstract-guess-handler';
+import { AbstractModeHandler } from '../abstract-mode-handler';
+import { AbstractTypeHandler } from '../abstract-type-handler';
 import { GuessDTO } from '../dtos/guess.dto';
 import { GuessQuotesService } from '../quotes/guessing/guess-quotes.service';
+import { HardSessionHandler } from './hard-session.handler';
 import { PlayerGuessRepository } from './player-guesses.repository';
 import { SessionsRepository } from './sessions.repository';
 
@@ -18,9 +20,10 @@ export class SessionsService {
     private readonly sessionsRepository: SessionsRepository,
     private readonly playerGuessRepository: PlayerGuessRepository,
     private readonly quotesHandler: GuessQuotesService,
+    private readonly hardSessionHandler: HardSessionHandler,
   ) {}
 
-  getHandlerByType(type: string): AbstractGuessHandler {
+  getTypeHandler(type: string): AbstractTypeHandler {
     switch (type) {
       case SessionType.GUESS_QUOTE:
         return this.quotesHandler;
@@ -29,8 +32,19 @@ export class SessionsService {
     throw new BadRequestException();
   }
 
-  async create(type: string) {
-    const handler = this.getHandlerByType(type);
+  getModeHandler(mode: string): AbstractModeHandler {
+    switch (mode) {
+      case SessionMode.HARD:
+        return this.hardSessionHandler;
+      case SessionMode.INFINITE:
+        return null;
+    }
+
+    throw new BadRequestException();
+  }
+
+  async create(type: string, mode: string) {
+    const handler = this.getTypeHandler(type);
     const guess = await handler.create();
 
     // Create the game session
@@ -38,9 +52,10 @@ export class SessionsService {
       id: nanoid(),
       guessId: guess.id,
       type,
+      mode,
     });
 
-    return { ...session, _id: undefined, data: guess.data };
+    return { ...session, ...guess.data, _id: undefined };
   }
 
   async guess(sessionId: string, guess: GuessDTO) {
@@ -53,40 +68,25 @@ export class SessionsService {
       throw new GoneException('Session is already finished');
     }
 
-    const handler = this.getHandlerByType(session.type);
-    const response = await handler.verify(session.guessId, guess);
+    const typeHandler = this.getTypeHandler(session.type);
+    const verification = await typeHandler.verify(session.guessId, guess);
 
-    await this.playerGuessRepository.upsert(
-      { guessId: session.guessId, guessed: guess.answer },
-      {
-        id: nanoid(),
-        guessId: session.guessId,
-        guessed: guess.answer,
-        correct: response.correct,
-      },
+    // Note: add the player's guess for analytical purposes.
+    await this.playerGuessRepository.addGuess(
+      session.guessId,
+      guess.answer,
+      verification.correct,
     );
 
-    if (response.correct) {
-      const hGuess = await handler.create();
+    const modeHandler = this.getModeHandler(session.mode);
+    const modeHandling = verification.correct
+      ? await modeHandler.correct(typeHandler, this.sessionsRepository, session)
+      : await modeHandler.incorrect(
+          typeHandler,
+          this.sessionsRepository,
+          session,
+        );
 
-      await this.sessionsRepository.findOneAndUpdate(
-        { id: session.id },
-        { $inc: { streak: 1 }, $set: { guessId: hGuess.id } },
-      );
-
-      return {
-        ...response,
-        id: session.id,
-        streak: session.streak + 1,
-        data: hGuess.data,
-      };
-    } else {
-      await this.sessionsRepository.findOneAndUpdate(
-        { id: session.id },
-        { $set: { finished: true } },
-      );
-    }
-
-    return response;
+    return { ...verification, ...modeHandling.session, ...modeHandling.data };
   }
 }

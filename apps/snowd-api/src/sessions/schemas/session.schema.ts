@@ -1,4 +1,4 @@
-import { AbstractDocument } from '@luni/common';
+import { AbstractDocument, SessionMode } from '@luni/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { SessionType } from '@luni/common';
@@ -10,6 +10,9 @@ export class Session extends AbstractDocument {
 
   @Prop({ type: String, enum: Object.values(SessionType) })
   type!: string;
+
+  @Prop({ type: String, enum: Object.values(SessionMode) })
+  mode!: string;
 
   @Prop()
   guessId!: string;

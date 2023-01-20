@@ -14,6 +14,7 @@ export * from './logger/logging.module';
 export * from './health/health.module';
 
 export * from './snowdown/session-types';
+export * from './snowdown/session-modes';
 export * from './snowdown/quote-types';
 
 export * from './helpers/generate-nano-id';
