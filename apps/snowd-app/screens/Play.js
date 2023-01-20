@@ -4,10 +4,12 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import ChampionIconList from '../components/ChampionIconList';
+import TextWithImage from '../components/TextWithImage';
 import { PageType } from '../data/page-types';
 
 export default function Play({ setPage, session, setSession }) {
   const [guessText, setGuessText] = useState(0);
+  const [prevGuessText, setPrevGuessText] = useState(0);
   const [quoteSound, setQuoteSound] = useState();
   const [selectedIcon, setSelectedIcon] = useState(0);
 
@@ -51,6 +53,7 @@ export default function Play({ setPage, session, setSession }) {
       return;
     }
 
+    setPrevGuessText(guessText);
     setGuessText(0);
     setSelectedIcon(0);
   };
@@ -72,10 +75,30 @@ export default function Play({ setPage, session, setSession }) {
   return (
     <>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>Current streak: {session.streak}</Text>
-      </View>
-
-      <View>
+        <Text style={styles.textStreak}>Current streak: {session.streak}</Text>
+        <Text style={styles.textPrevious}>
+          {session.solution && (
+            <View style={{ marginLeft: 12 }}>
+              <Text>
+                <TextWithImage
+                  text="Guessed > "
+                  textAfterImg={false}
+                  imageSource={{
+                    uri: `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${prevGuessText}.png`,
+                  }}
+                />
+                {' x '}
+                <TextWithImage
+                  text=" < Solution"
+                  textAfterImg={true}
+                  imageSource={{
+                    uri: `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${session.solution}.png`,
+                  }}
+                />
+              </Text>
+            </View>
+          )}
+        </Text>
         <Button label="PLAY QUOTE" onPress={playSound} />
       </View>
 
@@ -93,8 +116,13 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginTop: -50,
+    marginBottom: -24,
+    alignItems: 'center',
   },
-  text: {
+  textStreak: {
     fontSize: 28,
+  },
+  textPrevious: {
+    fontSize: 22,
   },
 });

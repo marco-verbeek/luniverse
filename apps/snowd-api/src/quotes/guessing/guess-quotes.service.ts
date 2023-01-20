@@ -38,7 +38,7 @@ export class GuessQuotesService extends AbstractTypeHandler {
 
     return {
       correct: Number(guess.answer) === dbGuess.championQuote.championId,
-      solution: dbGuess.championQuote.championName,
+      solution: JSON.stringify(dbGuess.championQuote.championId),
     };
   }
 }
