@@ -1,0 +1,18 @@
+{
+  "name": "scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/scraper.js",
+    "bundler": "node ./src/bundler.js"
+  },
+  "keywords": [],
+  "author": "Marco VERBEEK",
+  "license": "ISC",
+  "dependencies": {
+    "nanoid": "^3.3.4",
+    "puppeteer": "^19.5.2"
+  }
+}

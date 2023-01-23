@@ -10,6 +10,8 @@ import { MongooseModule } from '@nestjs/mongoose';
         connectionFactory: (connection) => {
           // eslint-disable-next-line @typescript-eslint/no-var-requires
           connection.plugin(require('mongoose-lean-virtuals'));
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          connection.plugin(require('mongoose-autopopulate'));
           return connection;
         },
       }),

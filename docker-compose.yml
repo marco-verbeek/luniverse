@@ -21,7 +21,6 @@ services:
 
   mongodb-auth:
     image: mongo
-    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: toor
@@ -60,7 +59,6 @@ services:
 
   mongodb-analysis:
     image: mongo
-    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: toor
@@ -91,7 +89,6 @@ services:
 
   mongodb-stats:
     image: mongo
-    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: toor
@@ -130,6 +127,35 @@ services:
       - raram-stats
     ports:
       - 80:80
+    restart: unless-stopped
+    networks:
+      - internal-network
+
+  snowdown-api:
+    build:
+      context: .
+      dockerfile: ./apps/snowd-api/Dockerfile
+      target: development
+    command: npm run start:dev snowd-api
+    env_file:
+      - ./apps/snowd-api/.env
+    depends_on:
+      - mongodb-snowdown
+    ports:
+      - 2999:2999
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal-network
+
+  mongodb-snowdown:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    ports:
+      - 27020:27017
     restart: unless-stopped
     networks:
       - internal-network

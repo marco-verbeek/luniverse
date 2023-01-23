@@ -19,12 +19,24 @@
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
     "paths": {
-      "@luni/common": ["libs/common/src"],
-      "@luni/common/*": ["libs/common/src/*"],
-      "@luni/riot-api": ["libs/riot-api/src"],
-      "@luni/riot-api/*": ["libs/riot-api/src/*"],
-      "@luni/champions": ["libs/champions/src"],
-      "@luni/champions/*": ["libs/champions/src/*"]
+      "@luni/common": [
+        "libs/common/src"
+      ],
+      "@luni/common/*": [
+        "libs/common/src/*"
+      ],
+      "@luni/riot-api": [
+        "libs/riot-api/src"
+      ],
+      "@luni/riot-api/*": [
+        "libs/riot-api/src/*"
+      ],
+      "@luni/champions": [
+        "libs/champions/src"
+      ],
+      "@luni/champions/*": [
+        "libs/champions/src/*"
+      ]
     }
   }
 }
