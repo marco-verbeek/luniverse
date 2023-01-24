@@ -9,17 +9,16 @@ function Champion({ champion }) {
       alignItems="center"
       bgcolor="rgba(89, 102, 128, 0.25)"
       borderRadius="5px"
-      padding="0px 12px"
+      padding="12px 12px"
     >
       {/* Avatar */}
-      <Stack direction="column" marginTop="15px">
+      <Stack direction="column">
         <Avatar
           sx={{ width: 32, height: 32 }}
           src={champion.championIconURL}
         ></Avatar>
-        {/* TODO: Replace with Name */}
-        <Typography className="champLevel" variant="body2" width="fit-content">
-          {champion.championLevel}
+        <Typography variant="body2" width="fit-content" minWidth="100px">
+          {champion.championName}
         </Typography>
       </Stack>
       {/* KDA */}

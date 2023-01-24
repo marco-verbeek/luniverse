@@ -1,17 +1,17 @@
+import { getChampionIconURL } from '@luni/champions';
+import { fetchUserByPuuid, STATS_QUEUE, UserProfileDTO } from '@luni/common';
+import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
 import { ImATeapotException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
-import { fetchUserByPuuid, STATS_QUEUE, UserProfileDTO } from '@luni/common';
-import { getChampionIconURL } from '@luni/champions';
 import {
   GameModes,
   GameTypes,
   RegionGroups,
-  Regions,
+  Regions
 } from 'twisted/dist/constants';
 
-import { DTHAnalysisService } from './dth-analysis.service';
 import { AnalysisRepository } from './analysis.repository';
+import { DTHAnalysisService } from './dth-analysis.service';
 
 @Injectable()
 export class AnalysisService {
@@ -21,7 +21,7 @@ export class AnalysisService {
     private readonly summonerV4Service: SummonerV4Service,
     private readonly dthAnalysisService: DTHAnalysisService,
     private readonly analysisRepository: AnalysisRepository,
-  ) {}
+  ) { }
 
   async analyzeGameById(gameId: string) {
     // See if the game has already been analyzed in the past
@@ -94,7 +94,7 @@ export class AnalysisService {
       {
         'players.puuid': user.puuid,
       },
-      { limit: 10, sort: { _id: -1 } },
+      { fields: {}, limit: 5, sort: { gameCreation: -1 } },
     );
 
     if (!history) {
