@@ -21,7 +21,7 @@ function TopPlayedChampions() {
   }
 
   return (
-    <Stack direction="column" spacing="12px" width="40%">
+    <Stack direction="column" spacing="12px" width="450px">
       <Typography
         variant="h5"
         display="flex"

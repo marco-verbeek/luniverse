@@ -20,7 +20,7 @@ function MatchHistory() {
   }
 
   return (
-    <Stack direction="column" spacing="12px" width="60%">
+    <Stack direction="column" spacing="12px" width="fill-available">
       <Typography
         variant="h5"
         display="flex"

@@ -18,14 +18,13 @@ function UserDetails({ summonerName }) {
   }
 
   return (
-    <div className="userDetails">
       <Stack
         direction="row"
         spacing={3}
         bgcolor="rgba(89, 102, 128, 0.5)"
         padding="24px"
         borderRadius="5px"
-        width="fit-content"
+        width="300px"
         height="100px"
       >
         <Stack direction="column">
@@ -50,7 +49,6 @@ function UserDetails({ summonerName }) {
           </Stack>
         </Stack>
       </Stack>
-    </div>
   );
 }
 
