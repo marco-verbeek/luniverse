@@ -1,6 +1,6 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { AbstractDocument } from '@luni/common';
 import { getChampionById, getChampionIconURL } from '@luni/champions';
+import { AbstractDocument } from '@luni/common';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({ versionKey: false, _id: false })
 export class PlayedChampion extends AbstractDocument {
@@ -95,5 +95,5 @@ PlayedChampionSchema.virtual('championIconURL').get(function (
 PlayedChampionSchema.virtual('championName').get(function (
   this: PlayedChampion,
 ) {
-  return getChampionById(this.championId, ['name']).name;
+  return getChampionById(this.championId, ['name']).name || '';
 });

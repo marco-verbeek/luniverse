@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
 import { UserProfileDTO } from '@luni/common';
 import { SummonerV4Service } from '@luni/riot-api';
+import { Injectable } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { GameModes, GameTypes, Regions } from 'twisted/dist/constants';
 
 @Injectable()
@@ -46,12 +46,14 @@ export class QueuesService {
       this.IN_GAME.delete(player.puuid);
 
       // Note: can be replaced with a queue message, subscribed to by interested services.
-      await fetch(
+      const analysisRequest = await fetch(
         `http://analysis:3000/analysis/${player.summonerName}/latest`,
         {
           method: 'POST',
         },
       );
+
+      console.log({ analysisRequest });
     }
   }
 

@@ -1,17 +1,12 @@
-import { ImATeapotException, Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
+import { getChampionById, getChampionIconURL } from '@luni/champions';
 import { fetchUserByPuuid, STATS_QUEUE, UserProfileDTO } from '@luni/common';
-import { getChampionIconURL } from '@luni/champions';
-import {
-  GameModes,
-  GameTypes,
-  RegionGroups,
-  Regions,
-} from 'twisted/dist/constants';
+import { MatchV5Service, SummonerV4Service } from '@luni/riot-api';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { RegionGroups, Regions } from 'twisted/dist/constants';
 
-import { DTHAnalysisService } from './dth-analysis.service';
 import { AnalysisRepository } from './analysis.repository';
+import { DTHAnalysisService } from './dth-analysis.service';
 
 @Injectable()
 export class AnalysisService {
@@ -39,12 +34,12 @@ export class AnalysisService {
       RegionGroups.EUROPE,
     );
 
-    if (
-      match.response.info.gameMode !== GameModes.ARAM ||
-      match.response.info.gameType !== GameTypes.MATCHED_GAME
-    ) {
-      throw new ImATeapotException('Can only analyze Matched ARAM games');
-    }
+    // if (
+    //   match.response.info.gameMode !== GameModes.ARAM ||
+    //   match.response.info.gameType !== GameTypes.MATCHED_GAME
+    // ) {
+    //   throw new ImATeapotException('Can only analyze Matched ARAM games');
+    // }
 
     // Apply DTH Analysis on official data
     const gameAnalysis = this.dthAnalysisService.performMatchAnalysis(
@@ -82,7 +77,7 @@ export class AnalysisService {
     const userLastGame = await this.matchV5Service.listMatches(
       puuid,
       RegionGroups.EUROPE,
-      { queue: 450, count: 1 },
+      { count: 1 },
     );
 
     const lastGameId = userLastGame.response[0];
@@ -111,6 +106,7 @@ export class AnalysisService {
       // Format players to only keep certain properties.
       const players = game.players.map((player) => ({
         championId: player.championId,
+        championName: getChampionById(player.championId, ['name'])?.name || '',
         championIconURL: getChampionIconURL(player.championId),
         championLevel: player.championLevel,
 
